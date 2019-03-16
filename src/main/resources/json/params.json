@@ -1,0 +1,13 @@
+{
+  "index": "GB",
+  "pageNo": 1,
+  "pageSize": 36,
+  "filters": [
+    {
+      "field": "goodsSn",
+      "values": [
+        "12345678"
+      ]
+    }
+  ]
+}
