@@ -14,15 +14,35 @@
         <java.version>1.8</java.version>
         <elastic.version>6.6.2</elastic.version>
         <log.version>2.11.1</log.version>
+        <gson.version>2.8.5</gson.version>
+        <commons.io.version>2.6</commons.io.version>
+        <spring.version>4.2.5.RELEASE</spring.version>
+        <digester.version>3.2</digester.version>
     </properties>
 
     <dependencies>
+        <!-- test -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- test end -->
+        
+        <!-- spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- spring end -->
 
         <!-- elasticsearch -->
         <dependency>
@@ -30,7 +50,6 @@
             <artifactId>transport</artifactId>
             <version>${elastic.version}</version>
         </dependency>
-        
         <!-- elasticsearch end -->
         
         <!-- log4j -->
@@ -40,6 +59,31 @@
             <version>${log.version}</version>
         </dependency>
         <!-- log4j end -->
+        
+        <!-- xml -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-digester3</artifactId>
+            <version>${digester.version}</version>
+        </dependency>
+        <!-- xml end -->
+        
+        <!-- gson -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+        <!-- gson end -->
+        
+        <!-- commons io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons.io.version}</version>
+        </dependency>
+        <!-- commons io end -->
+        
         
     </dependencies>
 

@@ -1,7 +1,8 @@
 {
-  "index": "GB",
+  "index": "sku",
   "pageNo": 1,
   "pageSize": 36,
+  "logEnable": true,
   "filters": [
     {
       "field": "goodsSn",
