@@ -17,12 +17,18 @@ package com.zheng.es.config.model;
  * </pre>
  */
 public class Field {
+    /**
+     * 字段名
+     */
     private String name;
+    /**
+     * 字段类型
+     */
     private String type;
+    /**
+     * 所属平台
+     */
     private String hit;
-    private String pattern;
-    private Boolean idSearch;
-
     public String getName() {
         return name;
     }
@@ -45,21 +51,5 @@ public class Field {
 
     public void setHit(String hit) {
         this.hit = hit;
-    }
-
-    public String getPattern() {
-        return pattern;
-    }
-
-    public void setPattern(String pattern) {
-        this.pattern = pattern;
-    }
-
-    public Boolean getIdSearch() {
-        return idSearch;
-    }
-
-    public void setIdSearch(Boolean idSearch) {
-        this.idSearch = idSearch;
     }
 }

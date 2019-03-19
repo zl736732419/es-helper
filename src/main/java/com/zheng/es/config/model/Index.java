@@ -43,15 +43,24 @@ public class Index {
      * 索引支持的平台列表
      */
     private String agent;
+
+    /**
+     * id查询所用字段
+     */
+    private String idField;
+    /**
+     * id查询匹配的关键字格式
+     */
+    private String idPattern;
     
     /**
      * index所有字段集合
      */
-    private Map<String, Object> allFieldMap = new HashMap<>();
+    private Map<String, Object> _allFieldMap = new HashMap<>();
     /**
      * index平台召回字段集合
      */
-    private Map<String, List<String>> agentResponseFieldMap = new HashMap<>();
+    private Map<String, List<String>> _agentResponseFieldMap = new HashMap<>();
 
     public String getName() {
         return name;
@@ -85,20 +94,36 @@ public class Index {
         this.agent = agent;
     }
 
-    public Map<String, Object> getAllFieldMap() {
-        return allFieldMap;
+    public String getIdField() {
+        return idField;
     }
 
-    public void setAllFieldMap(Map<String, Object> allFieldMap) {
-        this.allFieldMap = allFieldMap;
+    public void setIdField(String idField) {
+        this.idField = idField;
     }
 
-    public Map<String, List<String>> getAgentResponseFieldMap() {
-        return agentResponseFieldMap;
+    public String getIdPattern() {
+        return idPattern;
     }
 
-    public void setAgentResponseFieldMap(Map<String, List<String>> agentResponseFieldMap) {
-        this.agentResponseFieldMap = agentResponseFieldMap;
+    public void setIdPattern(String idPattern) {
+        this.idPattern = idPattern;
+    }
+
+    public Map<String, Object> get_allFieldMap() {
+        return _allFieldMap;
+    }
+
+    public void set_allFieldMap(Map<String, Object> _allFieldMap) {
+        this._allFieldMap = _allFieldMap;
+    }
+
+    public Map<String, List<String>> get_agentResponseFieldMap() {
+        return _agentResponseFieldMap;
+    }
+
+    public void set_agentResponseFieldMap(Map<String, List<String>> _agentResponseFieldMap) {
+        this._agentResponseFieldMap = _agentResponseFieldMap;
     }
 
     public void addFieldToMap(Field field) {
@@ -106,7 +131,7 @@ public class Index {
             return;
         }
         String fieldName = field.getName();
-        allFieldMap.put(fieldName, field);
+        _allFieldMap.put(fieldName, field);
         String hit = field.getHit();
         if (null == hit || Objects.equals(hit, "")) {
             return;
@@ -115,10 +140,10 @@ public class Index {
         Arrays.stream(agents)
                 .filter(agent -> StringUtil.isNotEmpty(agent))
                 .forEach(agent -> {
-                    List<String> agentFields = agentResponseFieldMap.get(agent);
+                    List<String> agentFields = _agentResponseFieldMap.get(agent);
                     if (null == agentFields) {
                         agentFields = new ArrayList<>();
-                        agentResponseFieldMap.put(agent, agentFields);
+                        _agentResponseFieldMap.put(agent, agentFields);
                     }
                     if (!agentFields.contains(fieldName)) {
                         agentFields.add(fieldName);
