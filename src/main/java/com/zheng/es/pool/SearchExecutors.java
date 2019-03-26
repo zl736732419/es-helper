@@ -13,7 +13,6 @@ import java.util.concurrent.TimeUnit;
  *  Copyright (c) 2016, globalegrow.com All Rights Reserved.
  *
  *  Description:
- *  TODO
  *
  *  Revision History
  *  Date,					Who,					What;
@@ -37,7 +36,7 @@ public class SearchExecutors {
         } else { // 有界
             workQueue = new SizedBlockingQueue<>(new LinkedTransferQueue(), capacity);
         }
-        return new ThreadPoolExecutor(poolSize, poolSize, 0, TimeUnit.SECONDS, 
+        return new SearchThreadPoolExecutor(THREAD_GROUP_NAME, poolSize, poolSize, 0, TimeUnit.SECONDS, 
                 workQueue, new SearchThreadFactory(THREAD_GROUP_NAME), new SearchRejectedExecutionHandler());
     }
     

@@ -23,10 +23,6 @@ public class FilterField {
     private List<Object> values;
     private String pair;
 
-    public FilterField() {
-        
-    }
-
     public String getField() {
         return field;
     }

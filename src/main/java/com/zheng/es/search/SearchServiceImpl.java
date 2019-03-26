@@ -1,8 +1,8 @@
 package com.zheng.es.search;
 
-import com.zheng.es.config.util.ConfigInit;
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,13 +23,11 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SearchServiceImpl implements ISearchService {
-    private ConfigInit init = ConfigInit.getInstance();
+    @Autowired
+    private ISearchAcceptor<Response> searchAcceptor;
     
     @Override
     public Response search(Params params) throws Exception {
-        
-        
-        
-        return null;
+        return searchAcceptor.accept(params);
     }
 }

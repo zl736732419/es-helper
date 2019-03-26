@@ -1,7 +1,10 @@
 package com.zheng.es.model;
 
+import com.zheng.es.enums.EnumExceptionCode;
+
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <pre>
@@ -11,7 +14,7 @@ import java.util.Map;
  *  Copyright (c) 2016, globalegrow.com All Rights Reserved.
  *
  *  Description:
- *  TODO
+ *  查询响应结果
  *
  *  Revision History
  *  Date,					Who,					What;
@@ -40,6 +43,15 @@ public class Response {
      * 召回记录列表
      */
     private List<Map<String, Object>> data;
+
+    /**
+     * 响应码
+     */
+    private Integer code;
+    /**
+     * 响应消息
+     */
+    private String msg;
 
     public String getIndex() {
         return index;
@@ -80,7 +92,27 @@ public class Response {
     public void setData(List<Map<String, Object>> data) {
         this.data = data;
     }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public void setCode(Integer code) {
+        this.code = code;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
     
+    public boolean isSuccess() {
+        return Objects.equals(code, EnumExceptionCode.SUCCESS.getKey());
+    }
+
     public static class Builder {
         private Response response;
         public Builder() {
@@ -109,6 +141,16 @@ public class Response {
 
         public Builder data(List<Map<String, Object>> data) {
             response.setData(data);
+            return this;
+        }
+
+        public Builder code(Integer code) {
+            response.setCode(code);
+            return this;
+        }
+
+        public Builder msg(String msg) {
+            response.setMsg(msg);
             return this;
         }
 
