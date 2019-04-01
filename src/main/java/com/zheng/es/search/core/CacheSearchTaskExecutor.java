@@ -1,4 +1,4 @@
-package com.zheng.es.search;
+package com.zheng.es.search.core;
 
 import com.zheng.es.pool.SearchPool;
 import com.zheng.es.search.tasks.AbstractSearchTask;
@@ -61,10 +61,24 @@ public class CacheSearchTaskExecutor<T> {
         if (StringUtil.isEmpty(task)) {
             return;
         }
-        CompletableFuture<T> future = CompletableFuture.supplyAsync(() -> task.execute(), executor);
-        cacheTask.putIfAbsent(task.name(), future);
+        CompletableFuture<T> future = CompletableFuture.supplyAsync(() -> doExecute(task), executor);
+        cacheTask.putIfAbsent(task.getTaskName(), future);
     }
 
+    /**
+     * 执行任务
+     * @param task
+     * @return
+     */
+    private T doExecute(AbstractSearchTask<T> task) {
+        try {
+            return task.call();
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        return null;
+    }
+    
     /**
      * 执行任务获取结果
      * @return

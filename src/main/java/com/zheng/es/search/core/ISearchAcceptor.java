@@ -1,9 +1,7 @@
-package com.zheng.es.search;
+package com.zheng.es.search.core;
 
 import com.zheng.es.exceptions.SearchException;
 import com.zheng.es.model.Params;
-
-import java.util.Map;
 
 /**
  * <pre>
@@ -13,8 +11,6 @@ import java.util.Map;
  *  Copyright (c) 2016, globalegrow.com All Rights Reserved.
  *
  *  Description:
- *  查询后期处理
- *  比如高亮、
  *
  *  Revision History
  *  Date,					Who,					What;
@@ -22,7 +18,6 @@ import java.util.Map;
  *
  * </pre>
  */
-public interface ISearchPostProcessor {
-    ISearchPostProcessor next();
-    void process(Params params, Map<String, Object> data) throws SearchException;
+public interface ISearchAcceptor<T> {
+    T accept(Params params) throws SearchException;
 }

@@ -1,4 +1,4 @@
-package com.zheng.es.search;
+package com.zheng.es.search.core.post;
 
 import com.zheng.es.exceptions.SearchException;
 import com.zheng.es.model.Params;

@@ -1,7 +1,8 @@
-package com.zheng.es.search;
+package com.zheng.es.search.service;
 
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
+import com.zheng.es.search.core.ISearchAcceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,5 +1,7 @@
 package com.zheng.es.search.tasks;
 
+import com.zheng.es.exceptions.SearchException;
+
 import java.util.concurrent.Callable;
 
 /**
@@ -18,10 +20,5 @@ import java.util.concurrent.Callable;
  * </pre>
  */
 public interface ISearchTask<T> extends Callable<T> {
-    /**
-     * 任务名称
-     * @see com.zheng.es.enums.EnumSearchTask
-     * @return
-     */
-    String name();
+    T execute() throws SearchException;
 }

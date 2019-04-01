@@ -1,10 +1,14 @@
-package com.zheng.es.search;
+package com.zheng.es.search.core;
 
+import com.zheng.es.enums.EnumSearchTask;
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
 import com.zheng.es.search.tasks.AbstractSearchTask;
+import com.zheng.es.search.tasks.SkuSearchTask;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +19,8 @@ import java.util.List;
  *  Copyright (c) 2016, globalegrow.com All Rights Reserved.
  *
  *  Description:
- *  基础查询任务：将查询和聚合单独划分任务查询
+ *  基础查询任务
+ *  将查询和聚合单独拆分任务查询
  *
  *  Revision History
  *  Date,					Who,					What;
@@ -27,8 +32,16 @@ import java.util.List;
 public class BaseSearchMapReduce implements ISearchMapReduce<Response> {
     @Override
     public List<AbstractSearchTask> map(Params params) {
-        // TODO
-        return null;
+        if (StringUtils.isEmpty(params)) {
+            return new ArrayList<>();
+        }
+        List<AbstractSearchTask> tasks = new ArrayList<>();
+        // 添加列表查询任务
+        SkuSearchTask skuTask = new SkuSearchTask(params, EnumSearchTask.SKU.getKey());
+        tasks.add(skuTask);
+        // TODO 聚合查询任务
+
+        return tasks;
     }
 
     @Override

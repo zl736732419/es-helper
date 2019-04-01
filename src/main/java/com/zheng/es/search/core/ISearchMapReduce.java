@@ -1,4 +1,4 @@
-package com.zheng.es.search;
+package com.zheng.es.search.core;
 
 import com.zheng.es.model.Params;
 import com.zheng.es.search.tasks.AbstractSearchTask;
