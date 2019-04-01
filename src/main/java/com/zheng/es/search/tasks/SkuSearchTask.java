@@ -2,6 +2,8 @@ package com.zheng.es.search.tasks;
 
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
+import com.zheng.es.search.searcher.SkuSearcher;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,13 +24,16 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SkuSearchTask extends AbstractSearchTask<Response> {
+    
+    @Autowired
+    private SkuSearcher skuSearcher;
+    
     public SkuSearchTask(Params params, String taskName) {
         super(params, taskName);
     }
     
     @Override
     public Response execute() {
-        // TODO
-        return null;
+        return skuSearcher.search(params);
     }
 }

@@ -33,10 +33,6 @@ public abstract class AbstractSearchTask<T> implements ISearchTask<T> {
         return taskName;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
     @Override
     public T call() throws Exception {
         T t = null;
