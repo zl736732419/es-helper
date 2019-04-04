@@ -12,6 +12,20 @@
     <name>es-helper-base</name>
 
     <dependencies>
+        <dependency>
+            <groupId>com.zheng.es</groupId>
+            <artifactId>es-helper-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        
+        <!-- test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        
         <!-- elasticsearch -->
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
@@ -19,11 +33,6 @@
             <version>${elastic.version}</version>
         </dependency>
         <!-- elasticsearch end -->
-        <dependency>
-            <groupId>com.zheng.es</groupId>
-            <artifactId>es-helper-common</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
     
 </project>

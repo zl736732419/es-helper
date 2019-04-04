@@ -1,11 +1,11 @@
 package com.zheng.es.parser;
 
+import com.zheng.es.config.ConfigInit;
 import com.zheng.es.config.model.Index;
 import com.zheng.es.config.model.Type;
-import com.zheng.es.config.ConfigInit;
-import com.zheng.es.model.Params;
-import com.zheng.es.search.core.model.EsPage;
-import com.zheng.es.search.core.model.EsQuery;
+import com.zheng.es.model.EsPage;
+import com.zheng.es.model.EsQuery;
+import com.zheng.es.model.QueryParams;
 import com.zheng.es.utils.SignUtil;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +31,7 @@ public class BaseEsQueryParser implements IEsQueryParser {
     private ConfigInit init = ConfigInit.getInstance();
     
     @Override
-    public EsQuery parse(Params params) {
+    public EsQuery parse(QueryParams params) {
         EsQuery.Builder builder = new EsQuery.Builder();
         // domain
         String domain = params.getDomain();
