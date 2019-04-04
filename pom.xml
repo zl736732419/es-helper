@@ -6,7 +6,14 @@
 
     <groupId>com.zheng.es</groupId>
     <artifactId>es-helper</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>es-helper-base</module>
+        <module>es-helper-ha</module>
+        <module>es-helper-core</module>
+        <module>es-helper-common</module>
+    </modules>
 
     <name>es-helper</name>
 
@@ -21,37 +28,6 @@
     </properties>
 
     <dependencies>
-        <!-- test -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${spring.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <!-- test end -->
-        
-        <!-- spring -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <!-- spring end -->
-
-        <!-- elasticsearch -->
-        <dependency>
-            <groupId>org.elasticsearch.client</groupId>
-            <artifactId>transport</artifactId>
-            <version>${elastic.version}</version>
-        </dependency>
-        <!-- elasticsearch end -->
-        
         <!-- log4j -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -84,6 +60,28 @@
         </dependency>
         <!-- commons io end -->
         
+        <!-- spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- spring end -->
+
+        <!-- test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- test end -->
         
     </dependencies>
 
