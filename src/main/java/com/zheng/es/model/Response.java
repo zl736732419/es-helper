@@ -24,9 +24,13 @@ import java.util.Objects;
  */
 public class Response {
     /**
-     * 索引名
+     * 网站域
      */
-    private String index;
+    private String domain;
+    /**
+     * 索引类型
+     */
+    private String type;
     /**
      * 分页页码
      */
@@ -53,12 +57,20 @@ public class Response {
      */
     private String msg;
 
-    public String getIndex() {
-        return index;
+    public String getDomain() {
+        return domain;
     }
 
-    public void setIndex(String index) {
-        this.index = index;
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Integer getPageNo() {
@@ -134,11 +146,16 @@ public class Response {
             return this;
         }
 
-        public Builder index(String index) {
-            response.setIndex(index);
+        public Builder domain(String domain) {
+            response.setDomain(domain);
             return this;
         }
 
+        public Builder type(String type) {
+            response.setType(type);
+            return this;
+        }
+        
         public Builder data(List<Map<String, Object>> data) {
             response.setData(data);
             return this;

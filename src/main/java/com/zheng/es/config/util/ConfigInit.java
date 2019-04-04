@@ -4,6 +4,7 @@ import com.zheng.es.config.model.Field;
 import com.zheng.es.config.model.Fields;
 import com.zheng.es.config.model.Filters;
 import com.zheng.es.config.model.Index;
+import com.zheng.es.config.model.Type;
 import com.zheng.es.utils.StringUtil;
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.io.FileUtils;
@@ -65,18 +66,20 @@ public class ConfigInit {
         
         digester.addObjectCreate("index", Index.class);
         digester.addSetProperties("index");
-        digester.addObjectCreate("index/filters", Filters.class);
-        digester.addObjectCreate("index/filters/field", Field.class);
-        digester.addSetProperties("index/filters/field");
-        digester.addObjectCreate("index/filters/fields", Fields.class);
-        digester.addSetProperties("index/filters/fields");
-        digester.addObjectCreate("index/filters/fields/field", Field.class);
-        digester.addSetProperties("index/filters/fields/field");
+        digester.addObjectCreate("index/type", Index.class);
+        digester.addSetProperties("index/type");
+        digester.addObjectCreate("index/type/filters", Filters.class);
+        digester.addObjectCreate("index/type/filters/field", Field.class);
+        digester.addSetProperties("index/type/filters/field");
+        digester.addObjectCreate("index/type/filters/fields", Fields.class);
+        digester.addSetProperties("index/type/filters/fields");
+        digester.addObjectCreate("index/type/filters/fields/field", Field.class);
+        digester.addSetProperties("index/type/filters/fields/field");
         
-        digester.addSetNext("index/filters/field", "addField");
-        digester.addSetNext("index/filters/fields", "addFields");
-        digester.addSetNext("index/filters/fields/field", "addField");
-        digester.addSetNext("index/filters", "setFilters");
+        digester.addSetNext("index/type/filters/field", "addField");
+        digester.addSetNext("index/type/filters/fields", "addFields");
+        digester.addSetNext("index/type/filters/fields/field", "addField");
+        digester.addSetNext("index/type/filters", "setFilters");
         
         Index index = null;
         try {
@@ -88,34 +91,40 @@ public class ConfigInit {
             return;
         }
         prepareIndex(index);
-        indexMap.put(index.getName(), index);
+        indexMap.put(index.getDomain(), index);
     }
 
     private void prepareIndex(Index index) {
-        Filters filters = index.getFilters();
-        if (StringUtils.isEmpty(filters)) {
+        if (null == index) {
             return;
         }
-        parseFieldToMap(filters.getFieldList(), index);
-        parseFieldsToMap(filters.getFieldsList(), index);
+        for (Type type : index.getTypes()) {
+            Filters filters = type.getFilters();
+            if (StringUtils.isEmpty(filters)) {
+                return;
+            }
+            parseFieldToMap(filters.getFieldList(), type);
+            parseFieldsToMap(filters.getFieldsList(), type);
+            index.putTypeToMap(type);
+        }
     }
 
-    private void parseFieldsToMap(List<Fields> fieldsList, Index index) {
+    private void parseFieldsToMap(List<Fields> fieldsList, Type type) {
         if (StringUtils.isEmpty(fieldsList)) {
             return;
         }
         fieldsList.stream()
                 .filter(fields -> StringUtil.isNotEmpty(fields))
-                .forEach(fields -> index.addFieldsToMap(fields));
+                .forEach(fields -> type.addFieldsToMap(fields));
     }
 
-    private void parseFieldToMap(List<Field> fields, Index index) {
+    private void parseFieldToMap(List<Field> fields, Type type) {
         if (StringUtils.isEmpty(fields)) {
             return;
         }
         fields.stream()
                 .filter(field -> StringUtil.isNotEmpty(field))
-                .forEach(field -> index.addFieldToMap(field));
+                .forEach(field -> type.addFieldToMap(field));
     }
 
     public Index getIndex(String index) {

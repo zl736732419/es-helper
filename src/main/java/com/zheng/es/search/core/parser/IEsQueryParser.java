@@ -1,4 +1,7 @@
-package com.zheng.es.search.parser;
+package com.zheng.es.search.core.parser;
+
+import com.zheng.es.model.Params;
+import com.zheng.es.search.core.model.EsQuery;
 
 /**
  * <pre>
@@ -16,6 +19,6 @@ package com.zheng.es.search.parser;
  *
  * </pre>
  */
-public interface EsQueryParser {
-    
+public interface IEsQueryParser {
+    EsQuery parse(Params params);
 }

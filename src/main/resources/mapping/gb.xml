@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<index domain="GB" agent="web,app,wap,android,ios,pad" cardinality="goodsWebSpu" idField="goodsSn" 
+       idPattern="[0-9A-Za-z]{9}">
+    <type name="sku">
+        <!-- 索引字段 -->
+        <filters>
+            <field name="skuId" type="string" hit="web,app,wap"></field>
+            <field name="goodsSn" type="string" hit="web,app,wap"></field>
+            <field name="goodsTitle" type="string" hit="web,app,wap"></field>
+            <field name="goodsImg" type="string" hit="web,app,wap"></field>
+            <field name="displayPrice" type="double" hit="web,app,wap"></field>
+            <field name="goodsWebSpu" type="string" hit="web,app,wap"></field>
+            <field name="stockFlag" type="int" hit="web,app,wap"></field>
+            <field name="goodsNumber" type="int" hit="web,app,wap"></field>
+            <field name="upTime" type="long" hit="web,app,wap"></field>
+            <fields name="categories" type="inner">
+                <field name="catId" type="int" hit="web,app,wap"></field>
+                <field name="catName" type="string" hit="web,app,wap"></field>
+                <field name="level" type="int" hit="web,app,wap"></field>
+            </fields>
+        </filters>
+        <!-- 索引字段 end-->
+    </type>
+    
+    <!-- TODO 后面需要添加的功能 -->
+    <!-- 聚合 -->
+    <aggs></aggs>
+    
+    <!-- 权重 -->
+    <weights></weights>
+    
+</index>

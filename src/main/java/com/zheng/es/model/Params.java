@@ -1,5 +1,7 @@
 package com.zheng.es.model;
 
+import com.zheng.es.utils.StringUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,13 @@ public class Params {
     /**
      * 索引名
      */
-    private String index;
+    private String domain;
+
+    /**
+     * 查询的type
+     */
+    private String type;
+    
     /**
      * 分页页码
      */
@@ -51,12 +59,23 @@ public class Params {
      */
     private String originalJson;
 
-    public String getIndex() {
-        return index;
+    public String getDomain() {
+        return domain;
     }
 
-    public void setIndex(String index) {
-        this.index = index;
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
+
+    public String getType() {
+        if (StringUtil.isEmpty(type)) {
+            type = "sku";
+        }
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Integer getPageNo() {
@@ -120,7 +139,8 @@ public class Params {
     @Override
     public String toString() {
         return "Params{" +
-                "index='" + index + '\'' +
+                "domain='" + domain + '\'' +
+                "type='" + type + '\'' +
                 ", pageNo=" + pageNo +
                 ", pageSize=" + pageSize +
                 ", agent=" + agent +
