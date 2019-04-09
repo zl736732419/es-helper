@@ -1,4 +1,4 @@
-package com.zheng.es.config.model;
+package com.zheng.es.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,7 @@ public class Fields {
     private String name;
     private String type;
     private List<Field> fields;
+    private String hit;
 
     public String getName() {
         return name;
@@ -43,11 +44,19 @@ public class Fields {
     public List<Field> getFields() {
         return fields;
     }
-
+    
     public void setFields(List<Field> fields) {
         this.fields = fields;
     }
-    
+
+    public String getHit() {
+        return hit;
+    }
+
+    public void setHit(String hit) {
+        this.hit = hit;
+    }
+
     public void addField(Field field) {
         if (null == field) {
             return;

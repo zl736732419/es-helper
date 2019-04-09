@@ -1,6 +1,6 @@
 package com.zheng.es.core.post;
 
-import com.zheng.es.exceptions.SearchException;
+import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 
 import java.util.Map;
@@ -24,5 +24,5 @@ import java.util.Map;
  */
 public interface ISearchPostProcessor {
     ISearchPostProcessor next();
-    void process(Params params, Map<String, Object> data) throws SearchException;
+    void process(Params params, Map<String, Object> data) throws EsSearchException;
 }

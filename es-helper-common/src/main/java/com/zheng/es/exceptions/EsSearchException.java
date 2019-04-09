@@ -18,23 +18,28 @@ import com.zheng.es.enums.EnumExceptionCode;
  *
  * </pre>
  */
-public class SearchException extends RuntimeException {
+public class EsSearchException extends RuntimeException {
     /**
      * 异常码
      * @see com.zheng.es.enums.EnumExceptionCode
      */
     private Integer code;
     
-    public SearchException(EnumExceptionCode exceptionCode) {
+    public EsSearchException(EnumExceptionCode exceptionCode) {
         this(exceptionCode.getKey(), exceptionCode.getValue());
     }
     
-    public SearchException(Integer code, String message) {
+    public EsSearchException(Integer code, String message) {
         super(message);
         this.code = code;
     }
+
+    public EsSearchException(Integer code, String message, Throwable e) {
+        super(message, e);
+        this.code = code;
+    }
     
-    public SearchException(String message, Throwable e) {
+    public EsSearchException(String message, Throwable e) {
         super(message, e);
     }
 

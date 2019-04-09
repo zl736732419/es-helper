@@ -1,6 +1,6 @@
 package com.zheng.es.task;
 
-import com.zheng.es.exceptions.SearchException;
+import com.zheng.es.exceptions.EsSearchException;
 
 import java.util.concurrent.Callable;
 
@@ -20,5 +20,5 @@ import java.util.concurrent.Callable;
  * </pre>
  */
 public interface ISearchTask<T> extends Callable<T> {
-    T execute() throws SearchException;
+    T execute() throws EsSearchException;
 }

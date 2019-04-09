@@ -80,7 +80,12 @@ public class EsQuery {
     /**
      * 是否sku展示得分
      */
-    private boolean queryScore;
+    private boolean queryScoreEnable;
+
+    /**
+     * sign key
+     */
+    private String key;
 
     public static class Builder {
         private EsQuery query;
@@ -114,8 +119,8 @@ public class EsQuery {
             return this;
         }
 
-        public Builder queryScore(boolean queryScore) {
-            query.setQueryScore(queryScore);
+        public Builder queryScoreEnable(boolean queryScoreEnable) {
+            query.setQueryScoreEnable(queryScoreEnable);
             return this;
         }
 
@@ -151,6 +156,11 @@ public class EsQuery {
         
         public Builder suggestBuilder(SuggestBuilder suggestBuilder) {
             query.setSuggestBuilder(suggestBuilder);
+            return this;
+        }
+        
+        public Builder key(String key) {
+            query.setKey(key);
             return this;
         }
         
@@ -207,12 +217,12 @@ public class EsQuery {
         this.logEnable = logEnable;
     }
 
-    public boolean isQueryScore() {
-        return queryScore;
+    public boolean isQueryScoreEnable() {
+        return queryScoreEnable;
     }
 
-    public void setQueryScore(boolean queryScore) {
-        this.queryScore = queryScore;
+    public void setQueryScoreEnable(boolean queryScoreEnable) {
+        this.queryScoreEnable = queryScoreEnable;
     }
 
     public String getPreference() {
@@ -269,5 +279,17 @@ public class EsQuery {
 
     public void setSuggestBuilder(SuggestBuilder suggestBuilder) {
         this.suggestBuilder = suggestBuilder;
+    }
+    
+    public boolean isExplainEnable() {
+        return isQueryScoreEnable();
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

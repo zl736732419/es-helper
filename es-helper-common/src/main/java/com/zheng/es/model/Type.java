@@ -1,4 +1,4 @@
-package com.zheng.es.config.model;
+package com.zheng.es.model;
 
 import com.zheng.es.utils.StringUtil;
 
@@ -37,7 +37,7 @@ public class Type {
     /**
      * index所有字段集合
      */
-    private Map<String, Object> _allFieldMap = new HashMap<>();
+    private Map<String, Field> _allFieldMap = new HashMap<>();
     
     /**
      * index平台召回字段集合
@@ -68,11 +68,11 @@ public class Type {
         this._agentResponseFieldMap = _agentResponseFieldMap;
     }
 
-    public Map<String, Object> get_allFieldMap() {
+    public Map<String, Field> get_allFieldMap() {
         return _allFieldMap;
     }
 
-    public void set_allFieldMap(Map<String, Object> _allFieldMap) {
+    public void set_allFieldMap(Map<String, Field> _allFieldMap) {
         this._allFieldMap = _allFieldMap;
     }
 
@@ -81,6 +81,10 @@ public class Type {
             return null;
         }
         return _agentResponseFieldMap.get(agent);
+    }
+    
+    public Field getField(String fieldName) {
+        return _allFieldMap.get(fieldName);
     }
     
     public void addFieldToMap(Field field) {
@@ -126,6 +130,8 @@ public class Type {
                     String fieldName = new StringBuilder(path)
                             .append(".").append(field.getName()).toString();
                     field.setName(fieldName);
+                    field.setNestedPath(fields.getName());
+                    field.setFieldsType(fields.getType());
                     addFieldToMap(field);
                 });
     }

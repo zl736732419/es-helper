@@ -1,6 +1,6 @@
 package com.zheng.es.core.post;
 
-import com.zheng.es.exceptions.SearchException;
+import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +26,7 @@ import java.util.Map;
 public class HighlightSearchPostProcessor extends AbstractSearchPostProcessor {
 
     @Override
-    public void doProcess(Params params, Map<String, Object> data) throws SearchException {
+    public void doProcess(Params params, Map<String, Object> data) throws EsSearchException {
         // TODO 处理高亮
     }
 }

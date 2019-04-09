@@ -1,7 +1,7 @@
 package utils;
 
-import com.zheng.es.config.model.Index;
-import com.zheng.es.config.ConfigInit;
+import com.zheng.es.model.Index;
+import com.zheng.es.utils.IndexConfigUtil;
 import org.junit.Test;
 
 /**
@@ -24,7 +24,7 @@ public class ConfigInitTest {
     
     @Test
     public void test() {
-        ConfigInit config = ConfigInit.getInstance();
+        IndexConfigUtil config = IndexConfigUtil.getInstance();
         Index index = config.getIndex("sku");
         System.out.println(index);
     }

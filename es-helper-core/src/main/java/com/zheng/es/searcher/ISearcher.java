@@ -1,6 +1,6 @@
 package com.zheng.es.searcher;
 
-import com.zheng.es.exceptions.SearchException;
+import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 
 /**
@@ -20,5 +20,5 @@ import com.zheng.es.model.Params;
  * </pre>
  */
 public interface ISearcher<T> {
-    T search(Params params) throws SearchException;
+    T search(Params params) throws EsSearchException;
 }

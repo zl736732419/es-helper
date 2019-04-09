@@ -1,5 +1,6 @@
 package com.zheng.es.model;
 
+import com.zheng.es.field.FilterField;
 import com.zheng.es.utils.StringUtil;
 
 import java.util.ArrayList;

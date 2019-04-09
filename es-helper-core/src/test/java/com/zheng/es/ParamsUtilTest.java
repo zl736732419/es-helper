@@ -1,6 +1,7 @@
-package utils;
+package com.zheng.es;
 
 import com.zheng.es.model.Params;
+import com.zheng.es.utils.ParamsUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 

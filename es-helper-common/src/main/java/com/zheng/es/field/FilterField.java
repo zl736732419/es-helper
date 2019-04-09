@@ -1,4 +1,6 @@
-package com.zheng.es.model;
+package com.zheng.es.field;
+
+import com.zheng.es.enums.EnumFieldType;
 
 import java.util.List;
 
@@ -18,17 +20,13 @@ import java.util.List;
  *
  * </pre>
  */
-public class FilterField {
-    private String field;
+public abstract class FilterField extends BaseField {
     private List<Object> values;
     private String pair;
+    private String operator;
 
-    public String getField() {
-        return field;
-    }
-
-    public void setField(String field) {
-        this.field = field;
+    public FilterField(String field, EnumFieldType fieldType) {
+        super(field, fieldType);
     }
 
     public List<Object> getValues() {
@@ -39,20 +37,19 @@ public class FilterField {
         this.values = values;
     }
 
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
     public String getPair() {
         return pair;
     }
 
     public void setPair(String pair) {
         this.pair = pair;
-    }
-
-    @Override
-    public String toString() {
-        return "FilterField{" +
-                "field='" + field + '\'' +
-                ", values=" + values +
-                ", pair='" + pair + '\'' +
-                '}';
     }
 }

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.zheng.es.model.FilterField;
+import com.zheng.es.field.FilterField;
 import com.zheng.es.model.Params;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

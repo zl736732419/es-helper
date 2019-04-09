@@ -13,10 +13,10 @@
             <field name="stockFlag" type="int" hit="web,app,wap"></field>
             <field name="goodsNumber" type="int" hit="web,app,wap"></field>
             <field name="upTime" type="long" hit="web,app,wap"></field>
-            <fields name="categories" type="inner">
-                <field name="catId" type="int" hit="web,app,wap"></field>
-                <field name="catName" type="string" hit="web,app,wap"></field>
-                <field name="level" type="int" hit="web,app,wap"></field>
+            <fields name="categories" type="nested" hit="web,app,wap">
+                <field name="catId" type="int"></field>
+                <field name="catName" type="string"></field>
+                <field name="level" type="int"></field>
             </fields>
         </filters>
         <!-- 索引字段 end-->

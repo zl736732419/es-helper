@@ -1,6 +1,6 @@
 package com.zheng.es.searcher;
 
-import com.zheng.es.exceptions.SearchException;
+import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ public class SkuSearcher implements ISearcher<Response> {
     
     
     @Override
-    public Response search(Params params) throws SearchException {
+    public Response search(Params params) throws EsSearchException {
         
         return null;
     }

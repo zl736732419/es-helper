@@ -1,11 +1,10 @@
-package com.zheng.es.config;
+package com.zheng.es.utils;
 
-import com.zheng.es.config.model.Field;
-import com.zheng.es.config.model.Fields;
-import com.zheng.es.config.model.Filters;
-import com.zheng.es.config.model.Index;
-import com.zheng.es.config.model.Type;
-import com.zheng.es.utils.StringUtil;
+import com.zheng.es.model.Field;
+import com.zheng.es.model.Fields;
+import com.zheng.es.model.Filters;
+import com.zheng.es.model.Index;
+import com.zheng.es.model.Type;
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -35,11 +34,11 @@ import java.util.Map;
  *
  * </pre>
  */
-public class ConfigInit {
+public class IndexConfigUtil {
     private Logger logger = LogManager.getLogger(this.getClass());
     Map<String, Index> indexMap = new HashMap<>();
     
-    private ConfigInit() {
+    private IndexConfigUtil() {
         initXml();
     }
 
@@ -132,10 +131,10 @@ public class ConfigInit {
     }
     
     private static class Inner {
-        private static ConfigInit instance = new ConfigInit();
+        private static IndexConfigUtil instance = new IndexConfigUtil();
     }
     
-    public static ConfigInit getInstance() {
+    public static IndexConfigUtil getInstance() {
         return Inner.instance;
     }
 }

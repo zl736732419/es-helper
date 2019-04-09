@@ -24,6 +24,12 @@ public enum EnumExceptionCode {
     SUCCESS(200, "search ok"),
     PARAMS_EMPTY(1000, "params is empty"),
     TASK_EMPTY(1001, "task is empty"),
+    UNKNOWN_FIELD_TYPE(1002, "field type unknown"),
+    QUERY_BUILDER_EMPTY(1003, "query builder is empty"),
+    ES_CONFIG_NULL(1004, "elasticsearch config empty"),
+    CONFIG_PARSE_ERROR(1005, "config parse error"),
+    CLUSTER_NULL(1006, "cluster is null"),
+    ES_CLIENT_ERROR(1007, "es client error"),
     UNKNOWN_ERROR(9999, "unknown error")
     //TODO
     ;

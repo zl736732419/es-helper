@@ -1,6 +1,6 @@
 package com.zheng.es.template;
 
-import com.zheng.es.exceptions.SearchException;
+import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SearchIndexTemplate implements ISearchTemplate {
     @Override
-    public Object search(Params params) throws SearchException {
+    public Object search(Params params) throws EsSearchException {
         
         
         

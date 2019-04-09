@@ -1,15 +1,15 @@
 package com.zheng.es.parser;
 
-import com.zheng.es.config.ConfigInit;
-import com.zheng.es.config.model.Index;
-import com.zheng.es.config.model.Type;
+import com.zheng.es.builder.FilterQueryBuilder;
+import com.zheng.es.utils.IndexConfigUtil;
+import com.zheng.es.model.Index;
+import com.zheng.es.model.Type;
 import com.zheng.es.model.EsPage;
 import com.zheng.es.model.EsQuery;
 import com.zheng.es.model.QueryParams;
-import com.zheng.es.utils.SignUtil;
+import com.zheng.es.utils.StringUtil;
+import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * <pre>
@@ -28,10 +28,13 @@ import java.util.List;
  */
 @Component
 public class BaseEsQueryParser implements IEsQueryParser {
-    private ConfigInit init = ConfigInit.getInstance();
+    private IndexConfigUtil init = IndexConfigUtil.getInstance();
     
     @Override
     public EsQuery parse(QueryParams params) {
+        if (StringUtil.isEmpty(params)) {
+            return null;
+        }
         EsQuery.Builder builder = new EsQuery.Builder();
         // domain
         String domain = params.getDomain();
@@ -49,15 +52,19 @@ public class BaseEsQueryParser implements IEsQueryParser {
         // 滚动查询
         builder.scrollId(params.getScrollId());
         // preference
-        String preference = SignUtil.sign(params);
-        builder.preference(preference);
+        builder.preference(params.getPreference());
         // fields
-        List<String> fields = type.getAgentFields(params.getAgent());
-        builder.fields(fields);
-        // filter
-        
-        
-
-        return null;
+        builder.fields(params.getFields());
+        // filters
+        QueryBuilder filterQueryBuilder = new FilterQueryBuilder(params.getFilters(), type).build();
+        builder.queryBuilder(filterQueryBuilder);
+        // queryScoreEnable
+        builder.logEnable(params.isLogEnable());
+        // logEnable
+        builder.queryScoreEnable(params.isQueryScoreEnable());
+        // key
+        builder.key(params.getKey());
+        EsQuery esQuery = builder.build();
+        return esQuery;
     }
 }

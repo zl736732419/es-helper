@@ -1,4 +1,6 @@
-package com.zheng.es.config.model;
+package com.zheng.es.model;
+
+import java.util.Objects;
 
 /**
  * <pre>
@@ -29,6 +31,17 @@ public class Field {
      * 所属平台
      */
     private String hit;
+
+    /**
+     * 父级属性类型
+     */
+    private String fieldsType;
+    
+    /**
+     * nested path
+     */
+    private String nestedPath;
+    
     public String getName() {
         return name;
     }
@@ -45,11 +58,31 @@ public class Field {
         this.type = type;
     }
 
+    public String getFieldsType() {
+        return fieldsType;
+    }
+
+    public void setFieldsType(String fieldsType) {
+        this.fieldsType = fieldsType;
+    }
+
     public String getHit() {
         return hit;
     }
 
     public void setHit(String hit) {
         this.hit = hit;
+    }
+
+    public String getNestedPath() {
+        return nestedPath;
+    }
+
+    public void setNestedPath(String nestedPath) {
+        this.nestedPath = nestedPath;
+    }
+    
+    public boolean isNested() {
+        return Objects.equals(fieldsType, "nested");
     }
 }

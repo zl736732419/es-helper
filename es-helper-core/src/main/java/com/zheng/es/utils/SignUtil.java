@@ -1,6 +1,6 @@
 package com.zheng.es.utils;
 
-import com.zheng.es.model.FilterField;
+import com.zheng.es.field.FilterField;
 import com.zheng.es.model.Params;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

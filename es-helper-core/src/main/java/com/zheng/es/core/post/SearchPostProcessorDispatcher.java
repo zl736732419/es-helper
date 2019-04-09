@@ -1,6 +1,6 @@
 package com.zheng.es.core.post;
 
-import com.zheng.es.exceptions.SearchException;
+import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
 import com.zheng.es.utils.StringUtil;
@@ -31,7 +31,7 @@ public class SearchPostProcessorDispatcher {
     @Autowired
     private ISearchPostProcessor highlightSearchPostProcessor;
     
-    public void dispatch(Params params, Response response) throws SearchException {
+    public void dispatch(Params params, Response response) throws EsSearchException {
         if (null == response || !response.isSuccess() || StringUtil.isEmpty(response.getData())) {
             return;
         }

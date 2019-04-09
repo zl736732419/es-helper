@@ -1,6 +1,6 @@
 package com.zheng.es.core.post;
 
-import com.zheng.es.exceptions.SearchException;
+import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 import com.zheng.es.utils.StringUtil;
 
@@ -28,7 +28,7 @@ public abstract class AbstractSearchPostProcessor implements ISearchPostProcesso
     }
 
     @Override
-    public void process(Params params, Map<String, Object> data) throws SearchException {
+    public void process(Params params, Map<String, Object> data) throws EsSearchException {
         if (StringUtil.isEmpty(data)) {
             return;
         }

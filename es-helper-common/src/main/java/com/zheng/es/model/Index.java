@@ -1,4 +1,4 @@
-package com.zheng.es.config.model;
+package com.zheng.es.model;
 
 import com.zheng.es.utils.StringUtil;
 

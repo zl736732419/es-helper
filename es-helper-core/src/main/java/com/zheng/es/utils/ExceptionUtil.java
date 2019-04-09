@@ -1,7 +1,7 @@
 package com.zheng.es.utils;
 
 import com.zheng.es.enums.EnumExceptionCode;
-import com.zheng.es.exceptions.SearchException;
+import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
 import org.apache.logging.log4j.Logger;
@@ -30,8 +30,8 @@ public class ExceptionUtil {
         logger.error("search error. params: {}", params, e);
         Integer code;
         String msg;
-        if (e instanceof SearchException) {
-            SearchException searchException = (SearchException) e;
+        if (e instanceof EsSearchException) {
+            EsSearchException searchException = (EsSearchException) e;
             code = searchException.getCode();
             msg = searchException.getMessage();
         } else {

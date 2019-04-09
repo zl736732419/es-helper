@@ -2,7 +2,7 @@ package com.zheng.es.core;
 
 import com.zheng.es.core.post.SearchPostProcessorDispatcher;
 import com.zheng.es.enums.EnumExceptionCode;
-import com.zheng.es.exceptions.SearchException;
+import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
 import com.zheng.es.search.tasks.AbstractSearchTask;
@@ -46,7 +46,7 @@ public class BaseSearchAcceptor implements ISearchAcceptor<Response> {
     private SearchPostProcessorDispatcher searchPostProcessorDispatcher;
     
     @Override
-    public Response accept(Params params) throws SearchException {
+    public Response accept(Params params) throws EsSearchException {
         Response response;
         try {
             // 1. 参数验证
@@ -74,7 +74,7 @@ public class BaseSearchAcceptor implements ISearchAcceptor<Response> {
      */
     private List<Response> executeTask(List<AbstractSearchTask> tasks, Params params) throws Exception {
         if (StringUtil.isEmpty(tasks)) {
-            throw new SearchException(EnumExceptionCode.TASK_EMPTY);
+            throw new EsSearchException(EnumExceptionCode.TASK_EMPTY);
         }
         String uniqueKey = SignUtil.uniqueKey(params);
         CacheSearchTaskExecutor executor = cacheExecutor.get(uniqueKey);
@@ -107,7 +107,7 @@ public class BaseSearchAcceptor implements ISearchAcceptor<Response> {
 
     private void validate(Params params) {
         if (StringUtil.isEmpty(params)) {
-            throw new SearchException(EnumExceptionCode.PARAMS_EMPTY);
+            throw new EsSearchException(EnumExceptionCode.PARAMS_EMPTY);
         }
         // TODO
     }
