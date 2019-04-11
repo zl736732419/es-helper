@@ -1,12 +1,11 @@
 package com.zheng.es.service;
 
-import com.zheng.es.utils.ClusterPool;
 import com.zheng.es.enums.EnumExceptionCode;
 import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.ha.ConsistantHashLoadBalance;
 import com.zheng.es.ha.RoundRobinLoadBalance;
+import com.zheng.es.utils.ClusterPool;
 import com.zheng.es.utils.StringUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,12 +27,7 @@ import java.util.List;
  */
 @Service
 public class ClusterServiceImpl implements IClusterService {
-    
     private ClusterPool clusterPool = ClusterPool.getInstance();
-    @Autowired
-    private RoundRobinLoadBalance roundRobinLoadBalance;
-    @Autowired
-    private ConsistantHashLoadBalance consistantHashLoadBalance;
     
     @Override
     public String getClusterKey(String key, String index) {
@@ -45,8 +39,10 @@ public class ClusterServiceImpl implements IClusterService {
             return clusterKeys.get(0);
         }
         if (StringUtil.isEmpty(key)) {
-            return roundRobinLoadBalance.select(index);
+            // 顺序轮询
+            return new RoundRobinLoadBalance().select(index);
         }
-        return consistantHashLoadBalance.select(key, clusterKeys);
+        // 一致性hash
+        return new ConsistantHashLoadBalance().select(key, clusterKeys);
     }
 }
