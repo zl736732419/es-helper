@@ -1,11 +1,12 @@
 package com.zheng.es.ha;
 
 import com.zheng.es.utils.ClusterPool;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <pre>
@@ -15,38 +16,31 @@ import java.util.concurrent.atomic.AtomicInteger;
  *  Copyright (c) 2016, globalegrow.com All Rights Reserved.
  *
  *  Description:
- *  顺序轮流策略
+ *  随机选择
  *
  *  Revision History
  *  Date,					Who,					What;
- *  2019年04月09日			zhenglian			    Initial.
+ *  2019年04月11日			zhenglian			    Initial.
  *
  * </pre>
  */
-public class RoundRobinLoadBalance extends AbstractLoadBalance {
-    
+public class RandomLoadBalance implements ILoadBalance {
+
     private ClusterPool clusterPool = ClusterPool.getInstance();
     /**
      * 记录index所在集群总数
      */
     private Map<String, Integer> totalMap = new ConcurrentHashMap<>();
-    /**
-     * 记录当前index遍历次数
-     */
-    private Map<String, AtomicInteger> currentMap = new ConcurrentHashMap<>();
-    
-    public RoundRobinLoadBalance() {
+
+    public RandomLoadBalance() {
         init();
     }
-
+    
     private void init() {
         Map<String, List<String>> indexClusters = clusterPool.getIndexClusters();
-        indexClusters.forEach((key, clusters) -> {
-            totalMap.put(key, clusters.size());
-            currentMap.put(key, new AtomicInteger(clusters.size() - 1));
-        });
+        indexClusters.forEach((key, clusters) -> totalMap.put(key, clusters.size()));
     }
-
+    
     @Override
     public String select(String key, List<String> clusterKeys) {
         throw new UnsupportedOperationException("顺序轮流算法不支持该操作");
@@ -54,15 +48,13 @@ public class RoundRobinLoadBalance extends AbstractLoadBalance {
 
     @Override
     public String select(String index) {
-        AtomicInteger current = currentMap.get(index);
-        if (null == current) {
+        Integer total = totalMap.get(index);
+        if (StringUtils.isEmpty(total)) {
             return null;
         }
-        Integer total = totalMap.get(index);
-        int i = current.incrementAndGet() % total;
+        int i = new Random().nextInt(total);
         List<String> clusterKeys = clusterPool.getIndexClusters().get(index);
         String clusterKey = clusterKeys.get(i);
-        currentMap.put(index, new AtomicInteger(i));
         return clusterKey;
     }
 }
