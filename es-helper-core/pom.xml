@@ -17,6 +17,16 @@
             <artifactId>es-helper-base</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.zheng.es</groupId>
+            <artifactId>es-helper-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zheng.es</groupId>
+            <artifactId>es-helper-ha</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
 
         <!-- test -->
         <dependency>
