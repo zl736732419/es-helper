@@ -28,45 +28,7 @@
     </properties>
 
     <dependencies>
-        <!-- log4j -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log.version}</version>
-        </dependency>
-        <!-- log4j end -->
         
-        <!-- xml -->
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-digester3</artifactId>
-            <version>${digester.version}</version>
-        </dependency>
-        <!-- xml end -->
-        
-        <!-- gson -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>${gson.version}</version>
-        </dependency>
-        <!-- gson end -->
-        
-        <!-- commons io -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>${commons.io.version}</version>
-        </dependency>
-        <!-- commons io end -->
-        
-        <!-- spring -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <!-- spring end -->
     </dependencies>
 
     <build>
