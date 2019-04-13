@@ -1,7 +1,10 @@
 package com.zheng.es.template;
 
+import com.zheng.es.base.IBaseSearcher;
 import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
+import com.zheng.es.model.Response;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,12 +24,13 @@ import org.springframework.stereotype.Component;
  * </pre>
  */
 @Component
-public class SearchIndexTemplate implements ISearchTemplate {
+public class SearchIndexTemplate implements ISearchTemplate<Response> {
+    @Autowired
+    private IBaseSearcher baseSearcher;
+    
     @Override
-    public Object search(Params params) throws EsSearchException {
-        
-        
-        
-        return null;
+    public Response search(Params params) throws EsSearchException {
+        Response response = baseSearcher.search(params);
+        return response;
     }
 }

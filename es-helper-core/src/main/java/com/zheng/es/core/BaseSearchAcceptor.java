@@ -5,7 +5,7 @@ import com.zheng.es.enums.EnumExceptionCode;
 import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
-import com.zheng.es.search.tasks.AbstractSearchTask;
+import com.zheng.es.task.AbstractSearchTask;
 import com.zheng.es.utils.ExceptionUtil;
 import com.zheng.es.utils.SignUtil;
 import com.zheng.es.utils.StringUtil;
@@ -44,6 +44,8 @@ public class BaseSearchAcceptor implements ISearchAcceptor<Response> {
     private ISearchMapReduce<Response> baseSearchMapReduce;
     @Autowired
     private SearchPostProcessorDispatcher searchPostProcessorDispatcher;
+    @Autowired
+    private IValidator validator;
     
     @Override
     public Response accept(Params params) throws EsSearchException {
@@ -76,7 +78,7 @@ public class BaseSearchAcceptor implements ISearchAcceptor<Response> {
         if (StringUtil.isEmpty(tasks)) {
             throw new EsSearchException(EnumExceptionCode.TASK_EMPTY);
         }
-        String uniqueKey = SignUtil.uniqueKey(params);
+        String uniqueKey = SignUtil.uniqueKeyWithPage(params);
         CacheSearchTaskExecutor executor = cacheExecutor.get(uniqueKey);
         if (null != executor) {
             ReentrantLock lock = executor.getLock();
@@ -106,9 +108,7 @@ public class BaseSearchAcceptor implements ISearchAcceptor<Response> {
     }
 
     private void validate(Params params) {
-        if (StringUtil.isEmpty(params)) {
-            throw new EsSearchException(EnumExceptionCode.PARAMS_EMPTY);
-        }
-        // TODO
+        validator.validate(params);
+        
     }
 }

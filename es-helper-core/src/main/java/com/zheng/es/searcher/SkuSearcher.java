@@ -3,6 +3,8 @@ package com.zheng.es.searcher;
 import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
+import com.zheng.es.template.ISearchTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,10 +26,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class SkuSearcher implements ISearcher<Response> {
     
+    @Autowired
+    private ISearchTemplate<Response> searchIndexTemplate;
     
     @Override
     public Response search(Params params) throws EsSearchException {
-        
-        return null;
+        return searchIndexTemplate.search(params);
     }
 }

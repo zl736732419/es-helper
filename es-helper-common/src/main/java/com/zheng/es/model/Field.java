@@ -41,6 +41,11 @@ public class Field {
      * nested path
      */
     private String nestedPath;
+
+    /**
+     * 查询类型
+     */
+    private String queryType;
     
     public String getName() {
         return name;
@@ -84,5 +89,13 @@ public class Field {
     
     public boolean isNested() {
         return Objects.equals(fieldsType, "nested");
+    }
+
+    public String getQueryType() {
+        return queryType;
+    }
+
+    public void setQueryType(String queryType) {
+        this.queryType = queryType;
     }
 }

@@ -1,5 +1,6 @@
 package com.zheng.es.model;
 
+import com.zheng.es.enums.EnumQueryOption;
 import com.zheng.es.field.FilterField;
 import com.zheng.es.utils.StringUtil;
 
@@ -113,6 +114,9 @@ public class Params {
     }
 
     public String getAgent() {
+        if (StringUtil.isEmpty(agent)) {
+            agent = "web";
+        }
         return agent;
     }
 
@@ -136,6 +140,16 @@ public class Params {
             filters = new ArrayList<>();
         }
         filters.add(filterField);
+    }
+    
+    public boolean isQueryScoreEnable() {
+        Boolean queryScoreEnable = (Boolean) options.get(EnumQueryOption.QUERY_SCORE_ENABLE.getKey());
+        return (null != queryScoreEnable) && queryScoreEnable;
+    }
+    
+    public boolean isQueryLogEnable() {
+        Boolean queryLogEnable = (Boolean) options.get(EnumQueryOption.QUERY_LOG_ENABLE.getKey());
+        return (null != queryLogEnable) && queryLogEnable;
     }
     
     @Override

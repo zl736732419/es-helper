@@ -2,8 +2,6 @@ package com.zheng.es.field;
 
 import com.zheng.es.enums.EnumFieldType;
 
-import java.util.List;
-
 /**
  * <pre>
  *
@@ -12,7 +10,6 @@ import java.util.List;
  *  Copyright (c) 2016, globalegrow.com All Rights Reserved.
  *
  *  Description:
- *  TODO
  *
  *  Revision History
  *  Date,					Who,					What;
@@ -21,20 +18,11 @@ import java.util.List;
  * </pre>
  */
 public abstract class FilterField extends BaseField {
-    private List<Object> values;
     private String pair;
     private String operator;
 
     public FilterField(String field, EnumFieldType fieldType) {
         super(field, fieldType);
-    }
-
-    public List<Object> getValues() {
-        return values;
-    }
-
-    public void setValues(List<Object> values) {
-        this.values = values;
     }
 
     public String getOperator() {

@@ -22,6 +22,7 @@ import java.util.Objects;
  */
 public enum EnumExceptionCode {
     SUCCESS(200, "search ok"),
+    SEARCH_ERROR(500, "search error"),
     PARAMS_EMPTY(1000, "params is empty"),
     TASK_EMPTY(1001, "task is empty"),
     UNKNOWN_FIELD_TYPE(1002, "field type unknown"),
@@ -30,6 +31,20 @@ public enum EnumExceptionCode {
     CONFIG_PARSE_ERROR(1005, "config parse error"),
     CLUSTER_NULL(1006, "cluster is null"),
     ES_CLIENT_ERROR(1007, "es client error"),
+    INDEX_NOT_EXISTS(1008, "index not exist"),
+    SEARCH_QUERY_ERROR(1009, "es query error"),
+    
+    VALID_DOMAIN_NULL(1100, "domain is null"),
+    VALID_DOMAIN_NOT_EXIST(1101, "domain is not exist"),
+    VALID_TYPE_NOT_EXIST(1103, "type is not exist"),
+    VALID_RECORD_OVERFLOW(1104, "number of record overflow"),
+    VALID_PAGE_SIZE_INVALID(1105, "pageSize is invalid"),
+    VALID_AGENT_NOT_EXIST(1106, "agent is invalid"),
+    VALID_FILTER_FIELD_NULL(1107, "filter field is null"),
+    VALID_FILTER_FIELD_NOT_EXIST(1108, "filter field is not exist"),
+    VALID_FILTER_NOT_NULL(1109, "filter is null"),
+    VALID_FILTER_FIELD_NOT_SUPPORT_QUERY(1110, "filter field not support query"),
+    
     UNKNOWN_ERROR(9999, "unknown error")
     //TODO
     ;

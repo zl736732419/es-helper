@@ -3,8 +3,8 @@ package com.zheng.es.core;
 import com.zheng.es.enums.EnumSearchTask;
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
-import com.zheng.es.search.tasks.AbstractSearchTask;
-import com.zheng.es.search.tasks.SkuSearchTask;
+import com.zheng.es.task.AbstractSearchTask;
+import com.zheng.es.task.SkuSearchTask;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 

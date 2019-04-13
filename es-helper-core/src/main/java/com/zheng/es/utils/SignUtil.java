@@ -30,7 +30,7 @@ public class SignUtil {
      * @param params
      * @return
      */
-    public static String uniqueKey(Params params) {
+    public static String uniqueKeyWithPage(Params params) {
         StringBuilder builder = build(params);
         if (StringUtil.isEmpty(builder)) {
             return null;
@@ -46,7 +46,7 @@ public class SignUtil {
      * @param params
      * @return
      */
-    public static String sign(Params params) {
+    public static String uniqueKeyWithoutPage(Params params) {
         StringBuilder builder = build(params);
         if (StringUtil.isEmpty(builder)) {
             return null;

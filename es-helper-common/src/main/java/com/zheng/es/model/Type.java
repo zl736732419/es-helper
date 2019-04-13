@@ -29,11 +29,16 @@ public class Type {
      * type名称
      */
     private String name;
-    /**
-     * 字段列表
-     */
-    private Filters filters;
 
+    /**
+     * 简单字段列表
+     */
+    private List<Field> fieldList = new ArrayList<>();
+
+    /**
+     * nested字段列表
+     */
+    private List<Fields> fieldsList = new ArrayList<>();
     /**
      * index所有字段集合
      */
@@ -43,6 +48,11 @@ public class Type {
      * index平台召回字段集合
      */
     private Map<String, List<String>> _agentResponseFieldMap = new HashMap<>();
+
+    /**
+     * 查询类型字段
+     */
+    private Map<String, List<String>> _queryTypeFieldMap = new HashMap<>(); 
     
     public String getName() {
         return name;
@@ -52,12 +62,20 @@ public class Type {
         this.name = name;
     }
 
-    public Filters getFilters() {
-        return filters;
+    public List<Field> getFieldList() {
+        return fieldList;
     }
 
-    public void setFilters(Filters filters) {
-        this.filters = filters;
+    public void setFieldList(List<Field> fieldList) {
+        this.fieldList = fieldList;
+    }
+
+    public List<Fields> getFieldsList() {
+        return fieldsList;
+    }
+
+    public void setFieldsList(List<Fields> fieldsList) {
+        this.fieldsList = fieldsList;
     }
 
     public Map<String, List<String>> get_agentResponseFieldMap() {
@@ -86,18 +104,81 @@ public class Type {
     public Field getField(String fieldName) {
         return _allFieldMap.get(fieldName);
     }
+
+    public Map<String, List<String>> get_queryTypeFieldMap() {
+        return _queryTypeFieldMap;
+    }
+
+    public void set_queryTypeFieldMap(Map<String, List<String>> _queryTypeFieldMap) {
+        this._queryTypeFieldMap = _queryTypeFieldMap;
+    }
+    
+    public List<String> getQueryTypeFields(String queryType) {
+        if (StringUtil.isEmpty(queryType)) {
+            return null;
+        }
+        return _queryTypeFieldMap.get(queryType);
+    }
+
+    public void addField(Field field) {
+        if (null == field) {
+            return;
+        }
+        if (null == fieldList) {
+            fieldList = new ArrayList<>();
+        }
+        fieldList.add(field);
+    }
+
+    public void addFields(Fields fields) {
+        if (null == fields) {
+            return;
+        }
+        if (null == fieldsList) {
+            fieldsList = new ArrayList<>();
+        }
+        fieldsList.add(fields);
+    }
     
     public void addFieldToMap(Field field) {
         if (null == field) {
             return;
         }
+        addAllField(field);
+        addAgentField(field);
+        addQueryTypeField(field);
+    }
+
+    private void addQueryTypeField(Field field) {
+        String queryType = field.getQueryType();
+        if (StringUtil.isEmpty(queryType)) {
+            return;
+        }
+        String[] arr = queryType.split(",");
+        Arrays.stream(arr)
+                .filter(qt -> StringUtil.isNotEmpty(qt))
+                .forEach(qt -> {
+                    List<String> fields = _queryTypeFieldMap.get(qt);
+                    if (StringUtil.isEmpty(fields)) {
+                        fields = new ArrayList<>();
+                        _queryTypeFieldMap.put(qt, fields);
+                    }
+                    fields.add(field.getName());
+                });
+    }
+
+    private void addAllField(Field field) {
         String fieldName = field.getName();
         _allFieldMap.put(fieldName, field);
+    }
+
+    private void addAgentField(Field field) {
         String hit = field.getHit();
         if (null == hit || Objects.equals(hit, "")) {
             return;
         }
         String[] agents = hit.split(",");
+        String fieldName = field.getName();
         Arrays.stream(agents)
                 .filter(agent -> StringUtil.isNotEmpty(agent))
                 .forEach(agent -> {

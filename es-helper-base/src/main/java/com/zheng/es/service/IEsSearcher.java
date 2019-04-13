@@ -1,7 +1,7 @@
 package com.zheng.es.service;
 
-import com.zheng.es.model.QueryParams;
-import org.elasticsearch.action.search.SearchResponse;
+import com.zheng.es.model.EsQuery;
+import com.zheng.es.model.EsSearchResponse;
 
 /**
  * <pre>
@@ -19,6 +19,6 @@ import org.elasticsearch.action.search.SearchResponse;
  *
  * </pre>
  */
-public interface IBaseSearch {
-    SearchResponse search(QueryParams queryParams) throws Exception;
+public interface IEsSearcher {
+    EsSearchResponse search(EsQuery esQuery);
 }

@@ -1,7 +1,7 @@
 package com.zheng.es.core;
 
 import com.zheng.es.pool.SearchPool;
-import com.zheng.es.search.tasks.AbstractSearchTask;
+import com.zheng.es.task.AbstractSearchTask;
 import com.zheng.es.utils.StringUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

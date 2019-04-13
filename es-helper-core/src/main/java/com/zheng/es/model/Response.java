@@ -175,4 +175,19 @@ public class Response {
             return response;
         }
     }
+    
+    public static Response buildEmptyResponse() {
+        return buildResponse(EnumExceptionCode.SUCCESS.getKey(), EnumExceptionCode.SUCCESS.getValue());
+    }
+
+    public static Response buildFailedResponse() {
+        return buildResponse(EnumExceptionCode.SEARCH_ERROR.getKey(), EnumExceptionCode.SEARCH_ERROR.getValue());
+    }
+    
+    private static Response buildResponse(Integer code, String msg) {
+        Response response = new Response();
+        response.setCode(code);
+        response.setMsg(msg);
+        return response;
+    }
 }

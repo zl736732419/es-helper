@@ -2,7 +2,6 @@ package com.zheng.es.utils;
 
 import com.zheng.es.model.Field;
 import com.zheng.es.model.Fields;
-import com.zheng.es.model.Filters;
 import com.zheng.es.model.Index;
 import com.zheng.es.model.Type;
 import org.apache.commons.digester3.Digester;
@@ -65,20 +64,19 @@ public class IndexConfigUtil {
         
         digester.addObjectCreate("index", Index.class);
         digester.addSetProperties("index");
-        digester.addObjectCreate("index/type", Index.class);
+        digester.addObjectCreate("index/type", Type.class);
         digester.addSetProperties("index/type");
-        digester.addObjectCreate("index/type/filters", Filters.class);
-        digester.addObjectCreate("index/type/filters/field", Field.class);
-        digester.addSetProperties("index/type/filters/field");
-        digester.addObjectCreate("index/type/filters/fields", Fields.class);
-        digester.addSetProperties("index/type/filters/fields");
-        digester.addObjectCreate("index/type/filters/fields/field", Field.class);
-        digester.addSetProperties("index/type/filters/fields/field");
-        
-        digester.addSetNext("index/type/filters/field", "addField");
-        digester.addSetNext("index/type/filters/fields", "addFields");
-        digester.addSetNext("index/type/filters/fields/field", "addField");
-        digester.addSetNext("index/type/filters", "setFilters");
+        digester.addObjectCreate("index/type/field", Field.class);
+        digester.addSetProperties("index/type/field");
+        digester.addObjectCreate("index/type/fields", Fields.class);
+        digester.addSetProperties("index/type/fields");
+        digester.addObjectCreate("index/type/fields/field", Field.class);
+        digester.addSetProperties("index/type/fields/field");
+
+        digester.addSetNext("index/type", "addType");
+        digester.addSetNext("index/type/field", "addField");
+        digester.addSetNext("index/type/fields", "addFields");
+        digester.addSetNext("index/type/fields/field", "addField");
         
         Index index = null;
         try {
@@ -98,12 +96,8 @@ public class IndexConfigUtil {
             return;
         }
         for (Type type : index.getTypes()) {
-            Filters filters = type.getFilters();
-            if (StringUtils.isEmpty(filters)) {
-                return;
-            }
-            parseFieldToMap(filters.getFieldList(), type);
-            parseFieldsToMap(filters.getFieldsList(), type);
+            parseFieldToMap(type.getFieldList(), type);
+            parseFieldsToMap(type.getFieldsList(), type);
             index.putTypeToMap(type);
         }
     }

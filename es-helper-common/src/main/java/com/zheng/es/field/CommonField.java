@@ -22,16 +22,15 @@ import java.util.List;
 public class CommonField extends FilterField {
     private List<Object> values;
     
-    public CommonField(String field) {
+    public CommonField(String field, List<Object> values) {
         super(field, EnumFieldType.COMMON);
+        this.values = values;
     }
 
-    @Override
     public List<Object> getValues() {
         return values;
     }
 
-    @Override
     public void setValues(List<Object> values) {
         this.values = values;
     }

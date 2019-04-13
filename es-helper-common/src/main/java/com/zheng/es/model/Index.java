@@ -2,6 +2,8 @@ package com.zheng.es.model;
 
 import com.zheng.es.utils.StringUtil;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +30,7 @@ public class Index {
     /**
      * 索引支持的平台列表
      */
-    private String agent;
+    private String agents;
     /**
      * 去同款
      */
@@ -44,9 +46,9 @@ public class Index {
     /**
      * 索引类型列表
      */
-    private List<Type> types;
+    private List<Type> types = new ArrayList<>();
 
-    private Map<String, Type> _typeMap;
+    private Map<String, Type> _typeMap = new HashMap<>();
 
     public String getDomain() {
         return domain;
@@ -81,7 +83,7 @@ public class Index {
         }
         _typeMap.put(type.getName(), type);
     }
-
+    
     public Map<String, Type> get_typeMap() {
         return _typeMap;
     }
@@ -94,12 +96,12 @@ public class Index {
         this.types = types;
     }
 
-    public String getAgent() {
-        return agent;
+    public String getAgents() {
+        return agents;
     }
 
-    public void setAgent(String agent) {
-        this.agent = agent;
+    public void setAgents(String agents) {
+        this.agents = agents;
     }
 
     public String getIdField() {
@@ -116,5 +118,12 @@ public class Index {
 
     public void setIdPattern(String idPattern) {
         this.idPattern = idPattern;
+    }
+    
+    public void addType(Type type) {
+        if (StringUtil.isEmpty(type)) {
+            return;
+        }
+        types.add(type);
     }
 }

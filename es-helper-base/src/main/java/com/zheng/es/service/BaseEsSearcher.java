@@ -1,13 +1,19 @@
 package com.zheng.es.service;
 
+import com.zheng.es.enums.EnumExceptionCode;
+import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.EsQuery;
-import com.zheng.es.model.QueryParams;
+import com.zheng.es.model.EsSearchResponse;
 import com.zheng.es.parser.BaseEsQueryParser;
+import com.zheng.es.utils.ClientPool;
 import com.zheng.es.utils.StringUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.support.IndicesOptions;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +30,7 @@ import java.util.concurrent.TimeUnit;
  *  Copyright (c) 2016, globalegrow.com All Rights Reserved.
  *
  *  Description:
- *  TODO
+ *  es查询
  *
  *  Revision History
  *  Date,					Who,					What;
@@ -33,21 +39,18 @@ import java.util.concurrent.TimeUnit;
  * </pre>
  */
 @Service
-public class BaseSearchImpl implements IBaseSearch {
+public class BaseEsSearcher implements IEsSearcher {
     private Logger logger = LogManager.getLogger(this.getClass());
     
     @Autowired
     private BaseEsQueryParser esQueryParser;
     @Autowired
     private IClusterService clusterService;
+    @Autowired
+    private ClientPool pool = ClientPool.getInstance();
     
     @Override
-    public SearchResponse search(QueryParams params) throws Exception {
-        EsQuery esQuery = esQueryParser.parse(params);
-        if (StringUtil.isEmpty(esQuery)) {
-            logger.error("search error, esQuery is null");
-            return null;
-        }
+    public EsSearchResponse search(EsQuery esQuery) {
         SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
         // page info
         sourceBuilder.from(esQuery.getFrom());
@@ -64,19 +67,38 @@ public class BaseSearchImpl implements IBaseSearch {
         sourceBuilder.explain(esQuery.isExplainEnable());
         
         SearchRequest searchRequest = new SearchRequest();
+        searchRequest.indicesOptions(IndicesOptions.lenientExpandOpen());
         // index & type
-        searchRequest.indices(esQuery.getIndex());
+        String index = esQuery.getIndex();
+        searchRequest.indices(index);
         searchRequest.types(esQuery.getType());
         // preference
         searchRequest.preference(esQuery.getPreference());
         searchRequest.source(sourceBuilder);
         
         // 获取执行es查询的集群key
-        String key = esQuery.getKey();
-        String clusterKey = clusterService.getClusterKey(key, esQuery.getIndex());
-        
-        
-
-        return null;
+        String clusterKey = clusterService.getClusterKey(esQuery.getKey(), index);
+        if (StringUtil.isEmpty(clusterKey)) {
+            throw new EsSearchException(EnumExceptionCode.INDEX_NOT_EXISTS.getKey(), "索引[" + index + "]不存在");
+        }
+        RestHighLevelClient client = pool.getClient(clusterKey);
+        SearchResponse response = null;
+        try {
+            response = client.search(searchRequest, RequestOptions.DEFAULT);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+        if (null == response) {
+            return null;
+        }
+        return new EsSearchResponse.Builder()
+                .status(response.status())
+                .took(response.getTook())
+                .terminatedEarly(response.isTerminatedEarly())
+                .timeout(response.isTimedOut())
+                .searchHits(response.getHits())
+                .aggregations(response.getAggregations())
+                .scrollId(response.getScrollId())
+                .build();
     }
 }

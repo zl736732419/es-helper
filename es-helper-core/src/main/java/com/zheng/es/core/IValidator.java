@@ -1,4 +1,4 @@
-package com.zheng.es.searcher;
+package com.zheng.es.core;
 
 import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
@@ -14,10 +14,10 @@ import com.zheng.es.model.Params;
  *
  *  Revision History
  *  Date,					Who,					What;
- *  2019年04月01日			zhenglian			    Initial.
+ *  2019年04月12日			zhenglian			    Initial.
  *
  * </pre>
  */
-public interface ISearcher<T> {
-    T search(Params params) throws EsSearchException;
+public interface IValidator {
+    void validate(Params params) throws EsSearchException;
 }

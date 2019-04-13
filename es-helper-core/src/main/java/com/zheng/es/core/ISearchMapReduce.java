@@ -1,7 +1,7 @@
 package com.zheng.es.core;
 
 import com.zheng.es.model.Params;
-import com.zheng.es.search.tasks.AbstractSearchTask;
+import com.zheng.es.task.AbstractSearchTask;
 
 import java.util.List;
 

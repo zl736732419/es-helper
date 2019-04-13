@@ -20,7 +20,6 @@ import java.util.List;
  * </pre>
  */
 public class QueryParams {
-
     /**
      * 索引名
      */
@@ -30,9 +29,12 @@ public class QueryParams {
      */
     private String type;
     /**
-     * 分类信息
+     * 分页页码
      */
     private Integer pageNo = 1;
+    /**
+     * 分页大小
+     */
     private Integer pageSize = 36;
     /**
      * 查询偏好
@@ -52,6 +54,8 @@ public class QueryParams {
      * 查询过滤条件
      */
     private List<FilterField> filters;
+    
+    // TODO boost filter
 
     /**
      * 是否展示得分
@@ -61,7 +65,6 @@ public class QueryParams {
      * 是否开启日志
      */
     private boolean logEnable;
-
     /**
      * unique key
      */
@@ -153,5 +156,72 @@ public class QueryParams {
 
     public void setKey(String key) {
         this.key = key;
+    }
+    
+    public static class Builder {
+        private QueryParams queryParams;
+        
+        public Builder() {
+            queryParams = new QueryParams();
+        }
+        
+        public Builder domain(String domain) {
+            queryParams.domain = domain;
+            return this;
+        }
+        
+        public Builder type(String type) {
+            queryParams.type = type;
+            return this;
+        }
+
+        public Builder pageNo(Integer pageNo) {
+            queryParams.pageNo = pageNo;
+            return this;
+        }
+
+        public Builder pageSize(Integer pageSize) {
+            queryParams.pageSize = pageSize;
+            return this;
+        }
+
+        public Builder preference(String preference) {
+            queryParams.preference = preference;
+            return this;
+        }
+
+        public Builder scrollId(String scrollId) {
+            queryParams.scrollId = scrollId;
+            return this;
+        }
+        
+        public Builder fields(List<String> fields) {
+            queryParams.fields = fields;
+            return this;
+        }
+        
+        public Builder filters(List<FilterField> filters) {
+            queryParams.filters = filters;
+            return this;
+        }
+        
+        public Builder queryScoreEnable(boolean queryScoreEnable) {
+            queryParams.queryScoreEnable = queryScoreEnable;
+            return this;
+        }
+        
+        public Builder logEnable(boolean logEnable) {
+            queryParams.logEnable = logEnable;
+            return this;
+        }
+        
+        public Builder key(String key) {
+            queryParams.key = key;
+            return this;
+        }
+        
+        public QueryParams build() {
+            return queryParams;
+        }
     }
 }

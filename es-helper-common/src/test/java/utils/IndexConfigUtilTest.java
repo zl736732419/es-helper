@@ -20,12 +20,12 @@ import org.junit.Test;
  *
  * </pre>
  */
-public class ConfigInitTest {
+public class IndexConfigUtilTest {
     
     @Test
     public void test() {
         IndexConfigUtil config = IndexConfigUtil.getInstance();
-        Index index = config.getIndex("sku");
+        Index index = config.getIndex("GB");
         System.out.println(index);
     }
     
