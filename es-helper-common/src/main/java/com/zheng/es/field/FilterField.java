@@ -17,10 +17,14 @@ import com.zheng.es.enums.EnumFieldType;
  *
  * </pre>
  */
-public abstract class FilterField extends BaseField {
+public class FilterField extends BaseField {
     private String pair;
     private String operator;
 
+    public FilterField() {
+        
+    }
+    
     public FilterField(String field, EnumFieldType fieldType) {
         super(field, fieldType);
     }

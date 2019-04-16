@@ -1,7 +1,5 @@
 package com.zheng.es.exceptions;
 
-import com.zheng.es.enums.EnumExceptionCode;
-
 /**
  * <pre>
  *
@@ -24,16 +22,12 @@ public class EsSearchException extends RuntimeException {
      * @see com.zheng.es.enums.EnumExceptionCode
      */
     private Integer code;
-    
-    public EsSearchException(EnumExceptionCode exceptionCode) {
-        this(exceptionCode.getKey(), exceptionCode.getValue());
-    }
-    
+
     public EsSearchException(Integer code, String message) {
         super(message);
         this.code = code;
     }
-
+    
     public EsSearchException(Integer code, String message, Throwable e) {
         super(message, e);
         this.code = code;

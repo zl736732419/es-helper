@@ -6,9 +6,9 @@ import com.zheng.es.model.Index;
 import com.zheng.es.model.Type;
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.util.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,7 +50,7 @@ public class IndexConfigUtil {
         File parent = FileUtils.getFile(parentPath);
         String[] extensions = new String[] {"xml"};
         Collection<File> xmls = FileUtils.listFiles(parent, extensions, false);
-        if (StringUtils.isEmpty(xmls)) {
+        if (StringUtil.isEmpty(xmls)) {
             logger.error("without no index config!");
             return;
         }
@@ -103,7 +103,7 @@ public class IndexConfigUtil {
     }
 
     private void parseFieldsToMap(List<Fields> fieldsList, Type type) {
-        if (StringUtils.isEmpty(fieldsList)) {
+        if (StringUtil.isEmpty(fieldsList)) {
             return;
         }
         fieldsList.stream()
@@ -112,7 +112,7 @@ public class IndexConfigUtil {
     }
 
     private void parseFieldToMap(List<Field> fields, Type type) {
-        if (StringUtils.isEmpty(fields)) {
+        if (StringUtil.isEmpty(fields)) {
             return;
         }
         fields.stream()

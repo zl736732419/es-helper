@@ -44,6 +44,13 @@ public enum EnumExceptionCode {
     VALID_FILTER_FIELD_NOT_EXIST(1108, "filter field is not exist"),
     VALID_FILTER_NOT_NULL(1109, "filter is null"),
     VALID_FILTER_FIELD_NOT_SUPPORT_QUERY(1110, "filter field not support query"),
+    VALID_FILTER_COMMON_FIELD_VALUES_NULL(1111, "common filter field values must not be null"),
+    VALID_FILTER_FIELD_INDEX_TYPE_NULL(1112, "index field type config not null"),
+    VALID_FILTER_FIELD_INDEX_TYPE_UNSUPPORTED(1113, "index field config type unsupported"),
+    VALID_FILTER_FIELD_VALUE_NULL(1114, "field value must not be null"),
+    VALID_FILTER_FIELD_INT_TYPE(1115, "field value must be int value"),
+    VALID_FILTER_FIELD_LONG_TYPE(1116, "field value must be long value"),
+    VALID_FILTER_FIELD_DOUBLE_TYPE(1117, "field value must be double value"),
     
     UNKNOWN_ERROR(9999, "unknown error")
     //TODO

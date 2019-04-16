@@ -6,7 +6,7 @@ import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
 import com.zheng.es.task.AbstractSearchTask;
-import com.zheng.es.utils.ExceptionUtil;
+import com.zheng.es.utils.SearchExceptionUtil;
 import com.zheng.es.utils.SignUtil;
 import com.zheng.es.utils.StringUtil;
 import org.apache.logging.log4j.LogManager;
@@ -62,7 +62,7 @@ public class BaseSearchAcceptor implements ISearchAcceptor<Response> {
             // 5. 查询后处理
             searchPostProcessorDispatcher.dispatch(params, response);
         } catch (Exception e) {
-            return ExceptionUtil.handleException(logger, params, e);
+            return SearchExceptionUtil.handleException(logger, params, e);
         }
         return response;
     }

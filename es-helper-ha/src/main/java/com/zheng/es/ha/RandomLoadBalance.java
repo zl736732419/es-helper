@@ -1,7 +1,7 @@
 package com.zheng.es.ha;
 
 import com.zheng.es.utils.ClusterPool;
-import org.springframework.util.StringUtils;
+import com.zheng.es.utils.StringUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -49,7 +49,7 @@ public class RandomLoadBalance implements ILoadBalance {
     @Override
     public String select(String index) {
         Integer total = totalMap.get(index);
-        if (StringUtils.isEmpty(total)) {
+        if (StringUtil.isEmpty(total)) {
             return null;
         }
         int i = new Random().nextInt(total);

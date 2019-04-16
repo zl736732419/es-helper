@@ -26,6 +26,8 @@ public class BaseField {
      * 字段类型
      */
     private EnumFieldType fieldType;
+    
+    public BaseField() {}
 
     public BaseField(String field, EnumFieldType fieldType) {
         this.field = field;

@@ -1,6 +1,7 @@
 package com.zheng.es.ha;
 
-import org.springframework.util.StringUtils;
+
+import com.zheng.es.utils.StringUtil;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -41,7 +42,7 @@ public class ConsistantHashLoadBalance extends AbstractLoadBalance {
 
     @Override
     public String select(String key, List<String> clusterKeys) {
-        if (StringUtils.isEmpty(clusterKeys)) {
+        if (StringUtil.isEmpty(clusterKeys)) {
             return null;
         }
         // 构建hash环
@@ -50,7 +51,7 @@ public class ConsistantHashLoadBalance extends AbstractLoadBalance {
         }
         // 根据key顺时针选择环上的节点
         Map.Entry<Long, String> entry = circle.ceilingEntry(hash(key));
-        if (StringUtils.isEmpty(entry)) {
+        if (StringUtil.isEmpty(entry)) {
             entry = circle.firstEntry();
         }
         return entry.getValue();

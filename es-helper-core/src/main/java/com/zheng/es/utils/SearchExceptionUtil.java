@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
  *
  * </pre>
  */
-public class ExceptionUtil {
+public class SearchExceptionUtil {
     
     public static Response handleException(Logger logger, Params params, Exception e) {
         if (null == e) {

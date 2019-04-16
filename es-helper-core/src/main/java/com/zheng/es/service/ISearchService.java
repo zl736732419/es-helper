@@ -11,7 +11,7 @@ import com.zheng.es.model.Response;
  *  Copyright (c) 2016, globalegrow.com All Rights Reserved.
  *
  *  Description:
- *  TODO
+ *  查询服务接口
  *
  *  Revision History
  *  Date,					Who,					What;

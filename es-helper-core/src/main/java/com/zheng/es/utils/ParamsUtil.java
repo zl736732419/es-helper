@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.zheng.es.enums.EnumFieldType;
+import com.zheng.es.field.CommonField;
 import com.zheng.es.field.FilterField;
 import com.zheng.es.model.Params;
 import org.apache.logging.log4j.LogManager;
@@ -65,7 +67,6 @@ public class ParamsUtil {
         filters.forEach(filter -> {
             FilterField filterField = new FilterField();
             parseFilterFieldAttr(json, filterField);
-            // TODO other filter field
             params.addFilter(filterField);
         });
         
@@ -76,18 +77,28 @@ public class ParamsUtil {
             String field = json.get("field").getAsString();
             filterField.setField(field);
         }
-        if (json.has("values")) {
-            JsonArray values = json.get("values").getAsJsonArray();
-            List<Object> list = new ArrayList<>();
-            for (JsonElement value : values) {
-                list.add(value.getAsString());
-            }
-            filterField.setValues(list);
-        }
         if (json.has("pair")) {
             String pair = json.get("pair").getAsString();
             filterField.setPair(pair);
         }
+        EnumFieldType fieldType = filterField.getFieldType();
+        switch (fieldType) {
+            case COMMON:
+                default:
+                parseCommonFilterField(json, (CommonField) filterField);
+        }
+    }
+
+    private static void parseCommonFilterField(JsonObject json, CommonField commonField) {
+        if (!json.has("values")) {
+            return;
+        }
+        JsonArray values = json.get("values").getAsJsonArray();
+        List<Object> list = new ArrayList<>();
+        for (JsonElement value : values) {
+            list.add(value.getAsString());
+        }
+        commonField.setValues(list);
     }
 
     private static void parseCommonFields(JsonObject json, Params params) {

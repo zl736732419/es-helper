@@ -19,15 +19,20 @@ import java.util.Objects;
  *
  * </pre>
  */
-public enum EnumFieldType {
+public enum EnumFieldValueType {
     /**
      * 等值过滤
      */
-    COMMON("common");
+    STRING("string"),
+    INT("int"),
+    DOUBLE("double"),
+    LONG("long")
+    
+    ;
 
     private String key;
 
-    EnumFieldType(String key) {
+    EnumFieldValueType(String key) {
         this.key = key;
     }
 
@@ -39,11 +44,11 @@ public enum EnumFieldType {
         this.key = key;
     }
 
-    public static EnumFieldType findByValue(String key) {
+    public static EnumFieldValueType findByValue(String key) {
         if (StringUtil.isEmpty(key)) {
             return null;
         }
-        for (EnumFieldType type : EnumFieldType.values()) {
+        for (EnumFieldValueType type : EnumFieldValueType.values()) {
             if (Objects.equals(type.getKey(), key)) {
                 return type;
             }

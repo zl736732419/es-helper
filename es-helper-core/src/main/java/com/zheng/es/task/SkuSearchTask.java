@@ -4,7 +4,6 @@ import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
 import com.zheng.es.searcher.SkuSearcher;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * <pre>
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Component;
  *
  * </pre>
  */
-@Component
 public class SkuSearchTask extends AbstractSearchTask<Response> {
     
     @Autowired

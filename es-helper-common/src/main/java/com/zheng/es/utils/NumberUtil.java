@@ -1,7 +1,6 @@
 package com.zheng.es.utils;
 
 import org.apache.commons.lang3.math.NumberUtils;
-import org.springframework.util.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -26,7 +25,7 @@ import java.util.Objects;
 public class NumberUtil
 {
     public static Double formatDouble(Object obj, int scale) {
-        if (StringUtils.isEmpty(obj) || !NumberUtils.isNumber(obj.toString())) {
+        if (StringUtil.isEmpty(obj) || !NumberUtils.isNumber(obj.toString())) {
             return null;
         }
         scale = scale < 0 ? 0 : scale;
@@ -36,7 +35,7 @@ public class NumberUtil
     }
 
     public static Double formatDouble(BigDecimal obj, int scale) {
-        if (StringUtils.isEmpty(obj)) {
+        if (StringUtil.isEmpty(obj)) {
             return null;
         }
         scale = scale < 0 ? 0 : scale;
@@ -49,8 +48,8 @@ public class NumberUtil
     }
 
     public static Double add(Double one, Double two, int scale) {
-        one = StringUtils.isEmpty(one) ? 0.0d : one;
-        two = StringUtils.isEmpty(two) ? 0.0d : two;
+        one = StringUtil.isEmpty(one) ? 0.0d : one;
+        two = StringUtil.isEmpty(two) ? 0.0d : two;
         BigDecimal result = new BigDecimal(one).add(new BigDecimal(two)).setScale(scale, RoundingMode.HALF_UP);
         return result.doubleValue();
     }
@@ -60,8 +59,8 @@ public class NumberUtil
     }
 
     public static Double subtract(Double one, Double two, int scale) {
-        one = StringUtils.isEmpty(one) ? 0.0d : one;
-        two = StringUtils.isEmpty(two) ? 0.0d : two;
+        one = StringUtil.isEmpty(one) ? 0.0d : one;
+        two = StringUtil.isEmpty(two) ? 0.0d : two;
         BigDecimal result = new BigDecimal(one).subtract(new BigDecimal(two)).setScale(scale, RoundingMode.HALF_UP);
         return result.doubleValue();
     }
@@ -71,7 +70,7 @@ public class NumberUtil
     }
 
     public static Double multiply(Double one, Double two, int scale) {
-        if (StringUtils.isEmpty(one) || StringUtils.isEmpty(two)) {
+        if (StringUtil.isEmpty(one) || StringUtil.isEmpty(two)) {
             return 0.0d;
         }
         BigDecimal result = new BigDecimal(one).multiply(new BigDecimal(two)).setScale(scale, RoundingMode.HALF_UP);
@@ -83,8 +82,8 @@ public class NumberUtil
     }
 
     public static Double divide(Double one, Double two, int scale) {
-        if (StringUtils.isEmpty(one)
-                || StringUtils.isEmpty(two)
+        if (StringUtil.isEmpty(one)
+                || StringUtil.isEmpty(two)
                 || Objects.equals(two, 0.0d)) {
             return 0.0d;
         }
@@ -93,14 +92,14 @@ public class NumberUtil
     }
 
     public static Integer parseInt(Object obj) {
-        if (StringUtils.isEmpty(obj) || !NumberUtils.isNumber(obj.toString())) {
+        if (StringUtil.isEmpty(obj) || !NumberUtils.isNumber(obj.toString())) {
             return null;
         }
         return Integer.parseInt(obj.toString());
     }
 
     public static Long parseLong(Object obj) {
-        if (StringUtils.isEmpty(obj) || !NumberUtils.isNumber(obj.toString())) {
+        if (StringUtil.isEmpty(obj) || !NumberUtils.isNumber(obj.toString())) {
             return null;
         }
         return Long.parseLong(obj.toString());

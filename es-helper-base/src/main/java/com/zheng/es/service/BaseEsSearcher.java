@@ -4,7 +4,6 @@ import com.zheng.es.enums.EnumExceptionCode;
 import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.EsQuery;
 import com.zheng.es.model.EsSearchResponse;
-import com.zheng.es.parser.BaseEsQueryParser;
 import com.zheng.es.utils.ClientPool;
 import com.zheng.es.utils.StringUtil;
 import org.apache.logging.log4j.LogManager;
@@ -41,12 +40,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class BaseEsSearcher implements IEsSearcher {
     private Logger logger = LogManager.getLogger(this.getClass());
-    
-    @Autowired
-    private BaseEsQueryParser esQueryParser;
     @Autowired
     private IClusterService clusterService;
-    @Autowired
     private ClientPool pool = ClientPool.getInstance();
     
     @Override
