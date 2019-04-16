@@ -40,7 +40,7 @@ import java.util.List;
 @Component
 public class QueryValidator implements IValidator {
     private IndexConfigUtil config = IndexConfigUtil.getInstance();
-    
+
     @Override
     public void validate(Params params) throws EsSearchException {
         if (StringUtil.isEmpty(params)) {
@@ -52,6 +52,7 @@ public class QueryValidator implements IValidator {
 
     /**
      * 验证filter
+     *
      * @param params
      */
     private void validateFilters(Params params) {
@@ -112,7 +113,7 @@ public class QueryValidator implements IValidator {
             ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_FILTER_FIELD_INDEX_TYPE_NULL, field);
         }
         switch (valueType) {
-            case STRING: 
+            case STRING:
                 // no validate for string
                 break;
             case DOUBLE:
@@ -124,8 +125,8 @@ public class QueryValidator implements IValidator {
             case LONG:
                 validateLongValue(value, field);
                 break;
-                default:
-                    ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_FILTER_FIELD_INDEX_TYPE_UNSUPPORTED, field);
+            default:
+                ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_FILTER_FIELD_INDEX_TYPE_UNSUPPORTED, field);
         }
     }
 
@@ -137,7 +138,7 @@ public class QueryValidator implements IValidator {
         if (StringUtil.isEmpty(num)) {
             ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_FILTER_FIELD_LONG_TYPE, field);
         }
-        
+
     }
 
     private void validateIntValue(Object value, String field) {
@@ -159,6 +160,7 @@ public class QueryValidator implements IValidator {
 
     /**
      * 验证普通字段
+     *
      * @param params
      */
     private void validateCommonFields(Params params) {
@@ -188,7 +190,7 @@ public class QueryValidator implements IValidator {
         }
         // agent
         String agents = index.getAgents();
-        if (!agents.contains(params.getAgent()+",")) {
+        if (!agents.contains(params.getAgent() + ",")) {
             ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_AGENT_NOT_EXIST, "agent");
         }
     }
