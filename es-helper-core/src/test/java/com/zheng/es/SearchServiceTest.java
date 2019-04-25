@@ -1,6 +1,9 @@
 package com.zheng.es;
 
+import com.zheng.es.model.Params;
+import com.zheng.es.model.Response;
 import com.zheng.es.service.ISearchService;
+import com.zheng.es.utils.ParamsUtil;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,8 +28,10 @@ public class SearchServiceTest extends BaseServiceTest {
     private ISearchService searchService;
     
     @Test
-    public void search() {
-        
+    public void search() throws Exception {
+        Params param = ParamsUtil.transform("gb.json");
+        Response response = searchService.search(param);
+        System.out.println(response);
     }
     
 }

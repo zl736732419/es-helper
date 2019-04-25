@@ -2,8 +2,8 @@ package com.zheng.es.task;
 
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
-import com.zheng.es.searcher.SkuSearcher;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.zheng.es.searcher.ISearcher;
+import com.zheng.es.utils.SpringContextUtil;
 
 /**
  * <pre>
@@ -22,9 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * </pre>
  */
 public class SkuSearchTask extends AbstractSearchTask<Response> {
-    
-    @Autowired
-    private SkuSearcher skuSearcher;
+    private ISearcher<Response> skuSearcher = SpringContextUtil.getBean("skuSearcher", ISearcher.class);
     
     public SkuSearchTask(Params params, String taskName) {
         super(params, taskName);

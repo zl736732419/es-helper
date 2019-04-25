@@ -32,16 +32,6 @@ public class EsSearchResponse {
      * 请求耗费时间
      */
     private TimeValue took;
-
-    /**
-     * 是否提前中断
-     */
-    private boolean terminatedEarly;
-
-    /**
-     * 是否超时
-     */
-    private boolean timeout;
     
     /**
      * 查询结果
@@ -74,22 +64,6 @@ public class EsSearchResponse {
         this.took = took;
     }
 
-    public boolean isTerminatedEarly() {
-        return terminatedEarly;
-    }
-
-    public void setTerminatedEarly(boolean terminatedEarly) {
-        this.terminatedEarly = terminatedEarly;
-    }
-
-    public boolean isTimeout() {
-        return timeout;
-    }
-
-    public void setTimeout(boolean timeout) {
-        this.timeout = timeout;
-    }
-
     public SearchHits getSearchHits() {
         return searchHits;
     }
@@ -115,7 +89,7 @@ public class EsSearchResponse {
     }
 
     public boolean isSuccess() {
-        return !isTimeout() && !isTerminatedEarly() && Objects.equals(status.getStatus(), RestStatus.OK.getStatus());
+        return Objects.equals(status.getStatus(), RestStatus.OK.getStatus());
     }
     
     public static class Builder {
@@ -135,16 +109,6 @@ public class EsSearchResponse {
             return this;
         }
 
-        public Builder terminatedEarly(boolean terminatedEarly) {
-            response.terminatedEarly = terminatedEarly;
-            return this;
-        }
-
-        public Builder timeout(boolean timeout) {
-            response.timeout = timeout;
-            return this;
-        }
-        
         public Builder searchHits(SearchHits searchHits) {
             response.searchHits = searchHits;
             return this;

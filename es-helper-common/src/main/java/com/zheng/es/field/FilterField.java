@@ -21,10 +21,6 @@ public class FilterField extends BaseField {
     private String pair;
     private String operator;
 
-    public FilterField() {
-        
-    }
-    
     public FilterField(String field, EnumFieldType fieldType) {
         super(field, fieldType);
     }

@@ -4,13 +4,18 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.zheng.es.enums.EnumExceptionCode;
 import com.zheng.es.enums.EnumFieldType;
 import com.zheng.es.field.CommonField;
 import com.zheng.es.field.FilterField;
 import com.zheng.es.model.Params;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +40,11 @@ public class ParamsUtil {
 
     /**
      * json字符串转化为Params对象
-     * @param jsonStr
+     * @param fileName
      * @return
      */
-    public static Params transform(String jsonStr) {
+    public static Params transform(String fileName) {
+        String jsonStr = readJsonFromResource(fileName);
         logger.debug("start parsing json string: \n{}", jsonStr);
         if (StringUtil.isEmpty(jsonStr)) {
             return null;
@@ -59,46 +65,75 @@ public class ParamsUtil {
         return params;
     }
 
+    private static String readJsonFromResource(String fileName) {
+        String json = null;
+        try {
+            URL url = ParamsUtil.class.getClassLoader().getResource("json/" + fileName);
+            File file = new File(url.toURI());
+            json = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return json;
+    }
+
     private static void parseFilterFields(JsonObject json, Params params) {
         if(!json.has("filters")) {
             return;
         }
         JsonArray filters = json.get("filters").getAsJsonArray();
         filters.forEach(filter -> {
-            FilterField filterField = new FilterField();
-            parseFilterFieldAttr(json, filterField);
+            FilterField filterField = parseFilterFieldAttr((JsonObject) filter);
             params.addFilter(filterField);
         });
         
     }
 
-    private static void parseFilterFieldAttr(JsonObject json, FilterField filterField) {
+    private static FilterField parseFilterFieldAttr(JsonObject json) {
+        String field = null;
         if (json.has("field")) {
-            String field = json.get("field").getAsString();
-            filterField.setField(field);
+             field = json.get("field").getAsString();
         }
+        String pair = null;
         if (json.has("pair")) {
-            String pair = json.get("pair").getAsString();
-            filterField.setPair(pair);
+            pair = json.get("pair").getAsString();
         }
-        EnumFieldType fieldType = filterField.getFieldType();
-        switch (fieldType) {
+        String operator = null;
+        if (json.has("operator")) {
+            operator = json.get("operator").getAsString();
+        }
+        EnumFieldType type = EnumFieldType.COMMON;
+        if (json.has("type")) {
+            String typeStr = json.get("type").getAsString();
+            type = EnumFieldType.findByKey(typeStr);
+            if (StringUtil.isEmpty(type)) {
+                ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_FILTER_FIELD_INDEX_TYPE_NULL, field);
+            }
+        }
+        FilterField filterField;
+        switch (type) {
             case COMMON:
                 default:
-                parseCommonFilterField(json, (CommonField) filterField);
+                filterField = parseCommonFilterField(json, field);
         }
+        if (StringUtil.isNotEmpty(filterField)) {
+            filterField.setPair(pair);
+            filterField.setOperator(operator);
+        }
+        return filterField;
     }
 
-    private static void parseCommonFilterField(JsonObject json, CommonField commonField) {
+    private static CommonField parseCommonFilterField(JsonObject json, String field) {
         if (!json.has("values")) {
-            return;
+            return null;
         }
-        JsonArray values = json.get("values").getAsJsonArray();
-        List<Object> list = new ArrayList<>();
-        for (JsonElement value : values) {
-            list.add(value.getAsString());
+        JsonArray array = json.get("values").getAsJsonArray();
+        List<Object> values = new ArrayList<>();
+        for (JsonElement value : array) {
+            values.add(value.getAsString());
         }
-        commonField.setValues(list);
+        CommonField commonField = new CommonField(field, values);
+        return commonField;
     }
 
     private static void parseCommonFields(JsonObject json, Params params) {
@@ -107,10 +142,25 @@ public class ParamsUtil {
             String domain = json.get("domain").getAsString();
             params.setDomain(domain);
         }
+        // accessToken
+        if (json.has("accessToken")) {
+            String accessToken = json.get("accessToken").getAsString();
+            params.setAccessToken(accessToken);
+        }
         // type
         if (json.has("type")) {
             String type = json.get("type").getAsString();
             params.setType(type);
+        }
+        // agent
+        if (json.has("agent")) {
+            String agent = json.get("agent").getAsString();
+            params.setAgent(agent);
+        }
+        // version
+        if (json.has("version")) {
+            String version = json.get("version").getAsString();
+            params.setVersion(version);
         }
         // 分页信息
         if (json.has("pageNo")) {
@@ -121,5 +171,11 @@ public class ParamsUtil {
             Integer pageSize = json.get("pageSize").getAsInt();
             params.setPageSize(pageSize);
         }
+        // scrollId
+        if (json.has("scrollId")) {
+            String scrollId = json.get("scrollId").getAsString();
+            params.setScrollId(scrollId);
+        }
+        
     }
 }

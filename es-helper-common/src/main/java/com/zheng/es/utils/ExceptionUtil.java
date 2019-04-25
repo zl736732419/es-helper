@@ -2,6 +2,7 @@ package com.zheng.es.utils;
 
 import com.zheng.es.enums.EnumExceptionCode;
 import com.zheng.es.exceptions.EsSearchException;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <pre>
@@ -21,9 +22,13 @@ import com.zheng.es.exceptions.EsSearchException;
 public class ExceptionUtil {
     public static void handleValidateException(EnumExceptionCode exceptionCode, String field) {
         Integer code = exceptionCode.getKey();
-        String msg = new StringBuilder().append("field:").append(field).append(" validate failed. ")
+        StringBuilder builder = new StringBuilder();
+        if (StringUtils.isNotEmpty(field)) {
+            builder.append("field:").append(field);
+        }
+        builder.append(" validate failed. ")
                 .append("error msg: ").append(exceptionCode.getValue())
                 .toString();
-        throw new EsSearchException(code, msg);
+        throw new EsSearchException(code, builder.toString());
     }
 }

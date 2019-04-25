@@ -1,0 +1,16 @@
+{
+  "domain": "GB",
+  "accessToken": "576861360e1344ba9b6de1992f60b28a",
+  "pageNo": 1,
+  "pageSize": 36,
+  "agent": "web",
+  "version": 5,
+  "filters": [
+    {
+      "field": "goodsSn",
+      "values": [
+        149676201
+      ]
+    }
+  ]
+}

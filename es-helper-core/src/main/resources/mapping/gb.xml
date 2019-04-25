@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<index domain="GB" agents="web,app,wap,android,ios,pad" cardinality="goodsWebSpu" idField="goodsSn" 
+<index domain="GB" accessToken="576861360e1344ba9b6de1992f60b28a" agents="web,app,wap,android,ios,pad" cardinality="goodsWebSpu" idField="goodsSn" 
        idPattern="[0-9A-Za-z]{9}">
     <type name="sku">
         <!-- 索引字段 -->

@@ -24,4 +24,6 @@ public class EsConstants {
      * 最大分页大小
      */
     public static final Integer MAX_PAGE_SIZE = 2000;
+    
+    
 }

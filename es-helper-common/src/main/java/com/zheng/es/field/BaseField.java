@@ -27,8 +27,6 @@ public class BaseField {
      */
     private EnumFieldType fieldType;
     
-    public BaseField() {}
-
     public BaseField(String field, EnumFieldType fieldType) {
         this.field = field;
         this.fieldType = fieldType;

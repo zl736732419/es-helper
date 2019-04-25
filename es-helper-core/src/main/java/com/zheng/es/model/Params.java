@@ -31,6 +31,11 @@ public class Params {
     private String domain;
 
     /**
+     * 索引标识
+     */
+    private String accessToken;
+
+    /**
      * 查询的type
      */
     private String type;
@@ -48,6 +53,14 @@ public class Params {
      */
     private String agent;
     /**
+     * 接口版本，用于后期升级
+     */
+    private String version;
+    /**
+     * 滚动查询id
+     */
+    private String scrollId;
+    /**
      * 查询条件
      */
     private List<FilterField> filters;
@@ -55,10 +68,6 @@ public class Params {
      * 原始json字符串
      */
     private String originalJson;
-    /**
-     * 滚动查询id
-     */
-    private String scrollId;
     
     private Map<String, Object> options = new HashMap<>();
     
@@ -68,6 +77,14 @@ public class Params {
 
     public void setDomain(String domain) {
         this.domain = domain;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public String getType() {
@@ -122,6 +139,14 @@ public class Params {
 
     public void setAgent(String agent) {
         this.agent = agent;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
     }
 
     public String getScrollId() {

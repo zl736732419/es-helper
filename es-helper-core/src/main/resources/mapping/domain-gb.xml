@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--gearbest soa config-->
+<domain name="GB" accessKey="576861360e1344ba9b6de1992f60b28a"
+        countryCodes="GBFR,GBES,GBPT,GBRU,GBDE,GBIT,GBBR,GBTR,GBUK,GBUS,GBAU,GBPL,GBNL,GBGR,GBMX,GBHU,GBSK,GBRO,GBMA,GBCZ,GBIN,GBPH,GBSTY,GBAI,GBDOL,GBWLS,GBCOD,GBCHB,GBLNM,GBJP"
+        languages="fr,es,ru,de,br,en"
+		agents="web,app,aff,prom,wap,ios,android,pad,sitemap,df,abc,recommend" lexemeTokenizer="true" centerWord="true" categoryPredictEnable="true">
+	<!--hit配置规则 web,wap统一为web,移动端ios,android,pad统一为app-->
+	<type name="sku" cardinali="goodsWebSpu">
+		<uid>goodsId</uid>
+		<field name="goodsId" dataType="string" hit="web,app,prom,abc,aff,recommend" queryType="term"/>
+		<field name="goodsSn" dataType="string" hit="web,app,aff,prom,sitemap,df" idType="internal"/>
+		<field name="goodsWebSpu" dataType="string" hit="web,app,df" queryType="term,agg"/>
+		
+		<!-- 查询字段 Start -->
+		<!-- 商品标题 -->
+		<field name="goodsTitle" dataType="string" defaultQuery="true" boost="5" copyField="true" queryType="spellcheck,exist"  hit="web,app,sitemap,df,aff" i18n="true" analyzer="shingle_analyzer"/>
+		<!-- 商品副标题 -->
+		<field name="subTitle" dataType="string" defaultQuery="true" boost="2" hit="web,app" i18n="true"/>
+		<!-- 品牌 -->
+		<field name="brandName" dataType="string" copyField="true" defaultQuery="true"  boost="3" queryType="agg,spellcheck,term" hit="web,app,df" lexemeType="brandName"/>
+		<!-- 型号词 constantScore="true" -->
+		<field name="goodsModelWord" dataType="string" defaultQuery="true" boost="2" hit="df"/>
+		<!--多值字段包含goodsTitle subTitle goodsModelWord-->
+		<field name="searchWords" dataType="string" copyToField="true" defaultQuery="true" i18n="true" boost="0.1"/>
+		<!-- 商品分类 -->
+		<fields name="categories" dataType = "nested" i18n="true">
+			<field name="catName" dataType="string" defaultQuery="true" boost="1" lexemeType="catName"/>
+			<field name="catId" dataType="integer" queryType="agg,term" hit="df"/>
+			<field name="level" dataType="integer" queryType="term" hit="df" includeInnerObjects='{"df":"1,2,3"}'/>
+			<field name="isDefault" dataType="integer" queryType="term" hit="df" includeInnerObjects='{"df":"1"}'/>
+		</fields>
+		<field name="activityIds" dataType="string" queryType="term" hit="web,app"/>
+		<!-- 查询字段 End -->
+
+		<!-- 排序字段 Start-->
+		<!-- 添加时间 -->
+		<field name="createTime" dataType="integer" hit="df" sortable="true"/>
+		<!-- 排序字段 -->
+		<field name="sortOrder" dataType="integer" sortable="true"/>
+		<!-- 活动结束时间 -->
+		<field name="expiredTime" dataType="long" sortable="true" hit="web,app,df,aff" queryType="range"/>
+		<!-- 活动结束时间 -->
+		<field name="appExpiredTime" dataType="long" sortable="true" hit="web,app,df,aff" queryType="range"/>
+		<!-- 第一次上架时间 -->
+		<field name="firstUpTime" dataType="integer" sortable="true" queryType="range,agg"/>
+		<!-- 排序字段  End-->
+		
+		<!-- 过滤字段 Start -->
+		<!-- 清仓标识 -->
+		<field name="saleMark" dataType="integer" queryType="term,agg"/>
+		<!-- 品牌ID -->
+		<field name="brandCode" dataType="string" queryType="term,exist,agg"/>
+		<!-- 平台pc -->
+		<field name="webStatus" dataType="integer" queryType="term" hit="web,app"/>
+		<!-- 平台android -->
+		<field name="appStatus" dataType="integer" queryType="term" hit="web,app"/>
+		<!-- 平台m -->
+		<field name="mStatus" dataType="integer" queryType="term" hit="web,app"/>
+		
+		<!-- 默认仓 -->
+		<field name="defaultWh" dataType="integer" queryType="term"/>
+		<!-- 库存数量 -->
+		<field name="stockFlag" dataType="integer" queryType="term,agg" sortable="true" hit="web,app"/>
+		<!-- 颜色&尺码&多规格 -->
+		<fields name="skuAttrs" dataType="nested" i18n="true">
+			<field name="attrKey" dataType="integer" queryType="term,agg" hit="sitemap"/>
+			<field name="attrValueKey" dataType="integer" queryType="term,agg" hit="sitemap"/>
+			<!--"analyzer" attribute used for multiple value fields-->
+			<field name="attrValue" dataType="string" queryType="term" defaultQuery="true" boost="1" lexemeType="attrValue"  hit="df"/>
+			<field name="attrType" dataType="integer" queryType="term" hit="sitemap,df"/>
+		</fields>	
+		<!-- 描述属性 -->
+		<fields name="skuDescAttrs" dataType="nested" i18n="true">
+			<field name="attrKey" dataType="integer" queryType="term,agg"/>
+			<field name="attrValueKey" dataType="integer" queryType="term,agg"/>
+			<field name="attrName" dataType="string" queryType="term" hit="df"/>
+			<!--"analyzer" attribute used for multiple value fields-->
+			<field name="attrValue" dataType="string" queryType="term" defaultQuery="true" boost="1" lexemeType="descAttrValue" hit="df"/>
+		</fields>
+		<fields name="coupons" dataType="nested">
+			<field name="code" dataType="string" queryType="term,agg" hit="web,app"/>
+			<field name="platforms" dataType="string" queryType="term" hit="web,app"/>
+		</fields>
+        <!-- 是否侵权  0：否 1：是 -->
+        <field name="isTort" queryType="term" dataType="integer"/>
+		<!-- 是否货到付款 0: 否 1：是 -->
+		<field name="isCod" queryType="term" dataType="integer"/>
+		<!-- 标签 -->
+		<fields name="tags" dataType="nested" hit="web,app">
+			<field name="key" dataType="string" queryType="agg,term" hit="web,app"/>
+			<field name="value" dataType="string" queryType="agg,term" hit="web,app"/>
+		</fields>
+		
+		<!-- 过滤字段 End -->
+
+		<!-- 商品细节  Start-->
+		<!-- SKU图片 -->
+		<field name="imgUrl" dataType="string" hit="web,app,aff,df"/>
+		<!-- 视频标识 -->
+		<field name="youtube" dataType="string" hit="web,app"/>
+		<!-- url使用标题 -->
+		<field name="urlTitle" dataType="string" hit="web,app,df,aff"/>
+		<!-- 服装SKU图片 -->
+		<field name="originalUrl" dataType="string" hit="web,app"/>
+		<field name="imgExtendUrl" dataType="string" hit="web,app"/>
+		<!-- 主分类ID -->
+		<field name="catId" dataType="integer" queryType="term,agg" hit="web,app,sitemap,aff"/>
+		<!-- Web SKU -->
+		<field name="goodsWebSku" dataType="string" hit="web,app,sitemap"/>
+		<!-- 本店售价 -->
+		<field name="shopPrice" dataType="double" hit="web,app,df,aff"/>
+		<!-- 店铺code -->
+		<field name="shopCode" dataType="string" hit="web,app,df" queryType="term"/>
+		<!-- 折扣标 -->
+		<field name="discount" dataType="double" hit="web,app,df,aff" sortable="true"/>
+		<!-- 折扣标 -->
+		<field name="appDiscount" dataType="double" hit="web,app" sortable="true"/>
+		<!-- 仓库code -->
+		<field name="whCode" dataType="string" hit="web,app,sitemap,aff,df" queryType="term,agg"/>
+		<!-- 价格类型 -->
+		<field name="priceType" dataType="string" hit="web,app,df" queryType="term,agg"/>
+		<!-- 价格类型 -->
+		<field name="appPriceType" dataType="string" hit="web,app" queryType="term,agg"/>
+		<!-- 近实时WEB价格 -->
+		<field name="displayPrice" dataType="double" hit="web,app,df,aff" queryType="range,agg" sortable="true"/>
+		<!-- 近实时APP价格 -->
+		<field name="appDisplayPrice" dataType="double" hit="web,app,aff" queryType="range,agg" sortable="true"/>
+		<!-- 活动/服务标签 -->
+		<fields name="labelFlags" dataType="nested">
+			<!-- 标签ID -->
+			<field name="labelId" dataType="integer" hit="web,app" queryType="term,agg"/>
+			<!-- 标签类型 -->
+			<field name="type" dataType="integer" hit="web,app" queryType="term"/>
+			<!-- 标签所属平台 -->
+			<field name="platform" dataType="string" hit="web,app" includeInnerObjects='{"web":"PC","app":"APP"}' queryType="term"/>
+		</fields>
+		<!-- 利润率 -->
+		<field name="priceRates" dataType="double" hit="web,app" queryType="range"/>
+		<!-- 分期ID -->
+		<field name="skuInstallmentId" dataType="string" hit="web,app"/>
+		<field name="catInstallmentId" dataType="string" hit="web,app"/>
+		<!-- 缩略图 -->
+		<field name="thumbExtendUrl" dataType="string" hit="web,app,aff"/>
+		<!-- 商品细节  End-->
+		
+		<!-- 权重字段  Start-->
+		<!-- 产品曝光转化率 -->
+		<field name="exposureSalesRate" dataType="double"/>
+		<!-- 产品曝光价值 -->
+		<field name="exposureSalesVolume" dataType="double"/>
+		<!--商品毛利率 包含负数-->
+		<field name="grossMargin" dataType="double"/>
+		<!-- 通过审核的平均星级 -->
+		<field name="passAvgScore" dataType="float" hit="web,app"/>
+		<!-- 通过审核的好评数 -->
+		<field name="passTotalNum" dataType="integer" hit="web,app"/>
+		<!-- 日环比增长率 -->
+		<field name="dailyRate" dataType="double" sortable="true"/>
+		<!-- 二周销量 -->
+		<field name="week2Sales" dataType="integer" queryType="range" hit="aff,df" sortable="true"/>
+		<!-- 二周销售额 -->
+		<field name="week2SalesVolume" dataType="double" sortable="true" hit="aff"/>
+		<!-- 总收藏数 -->
+		<field name="totalFavoriteCount" dataType="integer" hit="web,app" sortable="true"/>
+		<!-- 昨日销量 -->
+		<field name="yesterdaySales" dataType="float" sortable="true" queryType="term"/>
+		<!-- 权重字段  End-->
+		<field name="appDefaultWh" dataType="integer" queryType="term"  sortable="true"/>
+		<field name="appMinPriceFlag" dataType="integer" queryType="term"  sortable="true"/>
+		<field name="minPriceFlag" dataType="integer" queryType="term"  sortable="true"/>
+
+		<!-- 中心词字段  Start-->
+		<field name="centerWord" dataType="string" boost="8" queryType="agg"/>
+		<!-- 中心词字段  End-->
+
+		<field name="recommendedLevel" dataType="integer" queryType="term" hit="sitemap"/>
+		<!-- 膨胀金 -->
+		<field name="deposit" dataType="double" hit="web"/>
+		<field name="swellAmount" dataType="double" hit="web"/>
+		<field name="payStartTime" dataType="integer" hit="web"/>
+		<field name="payEndTime" dataType="integer" hit="web"/>
+		<field name="appDeposit" dataType="double" hit="app"/>
+		<field name="appSwellAmount" dataType="double" hit="app"/>
+		<field name="appPayStartTime" dataType="integer" hit="app"/>
+		<field name="appPayEndTime" dataType="integer" hit="app"/>
+	</type>
+	
+	<!-- 热搜词 Start -->
+	<type name="hotSearchword">
+		<field name="searchWord" dataType="string" hit="web,app,abc" copyField="true"/>
+		<!-- 给ABC词使用，用于查询特定单词的2周搜索量 -->
+		<field name="searchWord.raw" dataType="string" queryType="term"/>
+		<field name="searchTimes" dataType="integer" sortable="true" hit="web,app,abc"/>
+		<!-- 这里的catId与sku type中的catId重名了，配置会覆盖上面的！！！因此要保持一致-->
+		<field name="catId" queryType="term,agg" dataType="integer"/>
+		<field name="keyword" dataType="string" queryType="suggestion"/>
+	</type>
+	<!-- 热搜词 End -->
+	
+	<!-- 聚合属性 Start -->
+	<agg>
+		<field name="catId" aggDistinct="goodsWebSpu" aggSize="10"/>
+		<field name="brandCode" aggDistinct="goodsWebSpu" aggSize="10"/>
+		<field name="whCode" aggDistinct="goodsWebSpu" aggSize="10"/>
+		<field name="displayPrice" aggDistinct="goodsWebSpu" aggSize="10"/>
+		<field name="appDisplayPrice" aggDistinct="goodsWebSpu" aggSize="10"/>
+		<field name="firstUpTime" aggDistinct="goodsWebSpu" aggSize="10"/>
+		<field name="priceType" aggDistinct="goodsWebSpu" aggSize="10"/>
+		<field name="appPriceType" aggDistinct="goodsWebSpu" aggSize="10"/>
+		<field name="saleMark" aggDistinct="goodsWebSpu" aggSize="10"/>
+		<field name="stockFlag" aggDistinct="goodsWebSpu" aggSize="10"/>
+		<fields name="categories">
+			<field name="catId" aggDistinct="goodsWebSpu" aggSize="30"/>
+		</fields>
+		<fields name="skuAttrs">
+			<field name="attrKey" aggDistinct="goodsWebSpu" aggSize="30"/>
+			<field name="attrValueKey" aggDistinct="goodsWebSpu" aggSize="30"/>
+		</fields>
+		<fields name="skuDescAttrs">
+			<field name="attrKey" aggDistinct="goodsWebSpu" aggSize="30"/>
+			<field name="attrValueKey" aggDistinct="goodsWebSpu" aggSize="30"/>
+		</fields>
+		<fields name="labelFlags">
+			<field name="labelId" aggDistinct="goodsWebSpu" aggSize="10"/>
+		</fields>
+	</agg>
+	<!-- 聚合属性 End -->
+
+    <!--default weight 相关属性-->
+    <weight>
+        <!--收藏数range(0,+)-->
+        <field name="totalFavoriteCount" modifier="log1p" weight="0.1"/>
+        <!--评论平均分range(0,5) -->
+        <field name="passAvgScore"  modifier="ln1p" weight="0.2"/>
+        <!--产品曝光转化率range(0,1)-->
+        <field name="exposureSalesRate" modifier="sqrt" weight="0.3"/>
+        <!--产品曝光价值range(0,10000)-->
+        <field name="exposureSalesVolume" modifier="ln1p" weight="0.4"/>
+		<!--商品毛利率 包含负数-->
+		<field name="grossMargin" modifier="none" weight="0.1"/>
+		<!-- 新品提权-->
+		<field name="firstUpTime" modifier="es-custom" weight="0.2"/>
+    </weight>
+
+</domain>

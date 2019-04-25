@@ -5,6 +5,7 @@ import com.zheng.es.model.Type;
 import com.zheng.es.enums.EnumExceptionCode;
 import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.field.FilterField;
+import com.zheng.es.utils.ExceptionUtil;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -67,7 +68,7 @@ public class FilterQueryBuilder {
                         "unknown field type for field: " + filter.getField());
         }
         if (null == queryBuilder) {
-            throw new EsSearchException(EnumExceptionCode.QUERY_BUILDER_EMPTY);
+            ExceptionUtil.handleValidateException(EnumExceptionCode.QUERY_BUILDER_EMPTY, null);
         }
         resultQueryBuilder.must(queryBuilder);
     }

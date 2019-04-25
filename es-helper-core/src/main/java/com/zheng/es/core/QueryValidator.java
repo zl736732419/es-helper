@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <pre>
@@ -76,7 +77,7 @@ public class QueryValidator implements IValidator {
         Index index = config.getIndex(params.getDomain());
         Type type = index.getType(params.getType());
         Field field = type.getField(fieldName);
-        if (StringUtil.isNotEmpty(field)) {
+        if (StringUtil.isEmpty(field)) {
             ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_FILTER_FIELD_NOT_EXIST, fieldName);
         }
         List<String> filterFields = type.getQueryTypeFields(EnumQueryType.TERM.getValue());
@@ -164,20 +165,28 @@ public class QueryValidator implements IValidator {
      * @param params
      */
     private void validateCommonFields(Params params) {
-        // domain
-        if (StringUtils.isEmpty(params.getDomain())) {
-            ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_DOMAIN_NULL, "domain");
-        }
         Index index = config.getIndex(params.getDomain());
-        if (StringUtil.isEmpty(index)) {
-            ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_DOMAIN_NOT_EXIST, "domain");
-        }
+        // domain
+        validateDomain(params);
+        // index
+        validateIndex(index);
+        // accessToken
+        validateAccessToken(params.getAccessToken(), index.getAccessToken());
         // type
-        Type type = index.getType(params.getType());
-        if (StringUtil.isEmpty(type)) {
-            ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_TYPE_NOT_EXIST, "type");
-        }
+        validateType(index, params.getType());
         // pageNo
+        validatePageInfo(params);
+        // agent
+        validateAgent(params.getAgent(), index.getAgents());
+    }
+
+    private void validateAgent(String agent, String agents) {
+        if (!agents.contains(agent + ",")) {
+            ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_AGENT_NOT_EXIST, "agent");
+        }
+    }
+
+    private void validatePageInfo(Params params) {
         Integer pageNo = params.getPageNo();
         Integer pageSize = params.getPageSize();
         if (pageSize > EsConstants.MAX_PAGE_SIZE) {
@@ -188,10 +197,36 @@ public class QueryValidator implements IValidator {
         if (recordNum > EsConstants.MAX_SIZE) {
             ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_RECORD_OVERFLOW, "page");
         }
-        // agent
-        String agents = index.getAgents();
-        if (!agents.contains(params.getAgent() + ",")) {
-            ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_AGENT_NOT_EXIST, "agent");
+    }
+
+    private void validateType(Index index, String paramsType) {
+        Type type = index.getType(paramsType);
+        if (StringUtil.isEmpty(type)) {
+            ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_TYPE_NOT_EXIST, "type");
+        }
+    }
+
+    private void validateIndex(Index index) {
+        if (StringUtil.isEmpty(index)) {
+            ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_DOMAIN_NOT_EXIST, "domain");
+        }
+    }
+
+    private void validateDomain(Params params) {
+        if (StringUtils.isEmpty(params.getDomain())) {
+            ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_DOMAIN_NULL, "domain");
+        }
+    }
+
+    private void validateAccessToken(String accessToken, String indexAccessToken) {
+        if (StringUtil.isEmpty(accessToken)) {
+            ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_ACCESS_TOKEN_NULL, "accessToken");
+        }
+        if (StringUtil.isEmpty(indexAccessToken)) {
+            ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_ACCESS_TOKEN_NULL, "index accessToken");
+        }
+        if (!Objects.equals(accessToken, indexAccessToken)) {
+            ExceptionUtil.handleValidateException(EnumExceptionCode.VALID_ACCESS_TOKEN_INVALID, "accessToken");
         }
     }
 }

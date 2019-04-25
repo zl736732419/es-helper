@@ -1,5 +1,6 @@
 package com.zheng.es.start;
 
+import com.zheng.es.utils.ClientPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -44,6 +45,7 @@ public class ServerBootstrap {
         daemonThread.start();
         
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            ClientPool.getInstance().close();
             latch.countDown();
             logger.info("latch count down now ...");
         }));

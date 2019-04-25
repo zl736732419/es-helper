@@ -25,7 +25,7 @@ import java.util.List;
 public class Cluster {
     private String name;
     private List<ClusterNode> nodes = new ArrayList<>();
-    private static final Integer DEFAULT_PORT = 9300;
+    private static final Integer DEFAULT_PORT = 9200;
     private String indexes;
 
     private Cluster() {}

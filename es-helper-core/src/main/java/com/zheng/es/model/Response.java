@@ -190,4 +190,18 @@ public class Response {
         response.setMsg(msg);
         return response;
     }
+
+    @Override
+    public String toString() {
+        return "Response{" +
+                "domain='" + domain + '\'' +
+                ", type='" + type + '\'' +
+                ", pageNo=" + pageNo +
+                ", pageSize=" + pageSize +
+                ", total=" + total +
+                ", data=" + data +
+                ", code=" + code +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
 }

@@ -28,6 +28,10 @@ public class Index {
      */
     private String domain;
     /**
+     * 索引标识
+     */
+    private String accessToken;
+    /**
      * 索引支持的平台列表
      */
     private String agents;
@@ -56,6 +60,14 @@ public class Index {
 
     public void setDomain(String domain) {
         this.domain = domain;
+    }
+
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public String getCardinality() {

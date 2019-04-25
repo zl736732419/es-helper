@@ -1,7 +1,6 @@
 package com.zheng.es.utils;
 
 import com.zheng.es.enums.EnumExceptionCode;
-import com.zheng.es.exceptions.EsSearchException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +38,7 @@ public class EsPropertyConfig {
         try {
             props.load(input);
         } catch (IOException e) {
-            throw new EsSearchException(EnumExceptionCode.ES_CONFIG_NULL);
+            ExceptionUtil.handleValidateException(EnumExceptionCode.ES_CONFIG_NULL, null);
         }finally {
             if (null != input) {
                 try {

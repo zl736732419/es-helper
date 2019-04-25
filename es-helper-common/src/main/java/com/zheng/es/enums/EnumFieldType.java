@@ -39,7 +39,7 @@ public enum EnumFieldType {
         this.key = key;
     }
 
-    public static EnumFieldType findByValue(String key) {
+    public static EnumFieldType findByKey(String key) {
         if (StringUtil.isEmpty(key)) {
             return null;
         }

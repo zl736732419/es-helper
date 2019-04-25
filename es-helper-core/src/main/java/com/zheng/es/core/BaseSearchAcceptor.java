@@ -6,6 +6,7 @@ import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.Params;
 import com.zheng.es.model.Response;
 import com.zheng.es.task.AbstractSearchTask;
+import com.zheng.es.utils.ExceptionUtil;
 import com.zheng.es.utils.SearchExceptionUtil;
 import com.zheng.es.utils.SignUtil;
 import com.zheng.es.utils.StringUtil;
@@ -76,7 +77,7 @@ public class BaseSearchAcceptor implements ISearchAcceptor<Response> {
      */
     private List<Response> executeTask(List<AbstractSearchTask> tasks, Params params) throws Exception {
         if (StringUtil.isEmpty(tasks)) {
-            throw new EsSearchException(EnumExceptionCode.TASK_EMPTY);
+            ExceptionUtil.handleValidateException(EnumExceptionCode.TASK_EMPTY, null);
         }
         String uniqueKey = SignUtil.uniqueKeyWithPage(params);
         CacheSearchTaskExecutor executor = cacheExecutor.get(uniqueKey);

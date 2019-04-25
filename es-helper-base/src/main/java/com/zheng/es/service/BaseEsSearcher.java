@@ -77,11 +77,13 @@ public class BaseEsSearcher implements IEsSearcher {
             throw new EsSearchException(EnumExceptionCode.INDEX_NOT_EXISTS.getKey(), "索引[" + index + "]不存在");
         }
         RestHighLevelClient client = pool.getClient(clusterKey);
-        SearchResponse response = null;
+        SearchResponse response;
         try {
             response = client.search(searchRequest, RequestOptions.DEFAULT);
         } catch (Exception e) {
             logger.error(e);
+            e.printStackTrace();
+            throw new RuntimeException("elasticsearch error: clusterKey=" + clusterKey, e);
         }
         if (null == response) {
             return null;
@@ -89,8 +91,6 @@ public class BaseEsSearcher implements IEsSearcher {
         return new EsSearchResponse.Builder()
                 .status(response.status())
                 .took(response.getTook())
-                .terminatedEarly(response.isTerminatedEarly())
-                .timeout(response.isTimedOut())
                 .searchHits(response.getHits())
                 .aggregations(response.getAggregations())
                 .scrollId(response.getScrollId())

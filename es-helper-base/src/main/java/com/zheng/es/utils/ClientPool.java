@@ -44,7 +44,15 @@ public class ClientPool {
         return clientMap.get(key);
     }
     
-    public void close(RestHighLevelClient client) {
+    public void close() {
+        if (StringUtil.isEmpty(clientMap)) {
+            return;
+        }
+        clientMap.values().stream()
+                .forEach(client -> close(client));
+    }
+    
+    private void close(RestHighLevelClient client) {
         if (null == client) {
             return;
         }
@@ -58,7 +66,7 @@ public class ClientPool {
     private void initClients() {
         Map<String, Cluster> clusters = clusterPool.getClusters();
         if (StringUtil.isEmpty(clusters)) {
-            throw new EsSearchException(EnumExceptionCode.CLUSTER_NULL);
+            ExceptionUtil.handleValidateException(EnumExceptionCode.CLUSTER_NULL, null);
         }
         clusters.forEach((key, cluster) -> {
             List<HttpHost> nodes = getHttpPorts(cluster.getNodes());
