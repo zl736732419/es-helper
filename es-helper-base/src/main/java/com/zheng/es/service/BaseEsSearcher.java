@@ -4,6 +4,7 @@ import com.zheng.es.enums.EnumExceptionCode;
 import com.zheng.es.exceptions.EsSearchException;
 import com.zheng.es.model.EsQuery;
 import com.zheng.es.model.EsSearchResponse;
+import com.zheng.es.model.log.EsLoggerBuffer;
 import com.zheng.es.utils.ClientPool;
 import com.zheng.es.utils.StringUtil;
 import org.apache.logging.log4j.LogManager;
@@ -70,6 +71,8 @@ public class BaseEsSearcher implements IEsSearcher {
         // preference
         searchRequest.preference(esQuery.getPreference());
         searchRequest.source(sourceBuilder);
+        // add log message
+        EsLoggerBuffer.appendIfLogEnable(sourceBuilder.toString().replaceAll("\n", " "));
         
         // 获取执行es查询的集群key
         String clusterKey = clusterService.getClusterKey(esQuery.getKey(), index);

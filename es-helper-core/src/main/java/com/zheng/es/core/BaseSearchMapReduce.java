@@ -47,6 +47,6 @@ public class BaseSearchMapReduce implements ISearchMapReduce<Response> {
     @Override
     public Response reduce(List<Response> responses) {
         // TODO
-        return null;
+        return responses.get(0);
     }
 }

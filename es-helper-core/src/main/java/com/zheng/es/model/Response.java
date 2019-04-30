@@ -47,7 +47,6 @@ public class Response {
      * 召回记录列表
      */
     private List<Map<String, Object>> data;
-
     /**
      * 响应码
      */
@@ -56,6 +55,10 @@ public class Response {
      * 响应消息
      */
     private String msg;
+    /**
+     * 日志
+     */
+    private Object log;
 
     public String getDomain() {
         return domain;
@@ -125,6 +128,14 @@ public class Response {
         return Objects.equals(code, EnumExceptionCode.SUCCESS.getKey());
     }
 
+    public Object getLog() {
+        return log;
+    }
+
+    public void setLog(Object log) {
+        this.log = log;
+    }
+
     public static class Builder {
         private Response response;
         public Builder() {
@@ -168,6 +179,11 @@ public class Response {
 
         public Builder msg(String msg) {
             response.setMsg(msg);
+            return this;
+        }
+        
+        public Builder log(Object log) {
+            response.setLog(log);
             return this;
         }
 

@@ -1,6 +1,9 @@
 package com.zheng.es.task;
 
 import com.zheng.es.model.Params;
+import com.zheng.es.model.Response;
+import com.zheng.es.model.log.EsLoggerBuffer;
+import com.zheng.es.utils.StringUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,7 +22,7 @@ import org.apache.logging.log4j.Logger;
  *
  * </pre>
  */
-public abstract class AbstractSearchTask<T> implements ISearchTask<T> {
+public abstract class AbstractSearchTask implements ISearchTask<Response> {
     private Logger logger = LogManager.getLogger(this.getClass());
     protected Params params;
     protected String taskName;
@@ -34,13 +37,24 @@ public abstract class AbstractSearchTask<T> implements ISearchTask<T> {
     }
 
     @Override
-    public T call() throws Exception {
-        T t = null;
+    public Response call() throws Exception {
+        Response response = null;
         try {
-            t = execute();
+            EsLoggerBuffer.setLogEnable(params.isQueryLogEnable());
+            response = execute();
         } catch (Exception e) {
             logger.error(e);
+        } finally {
+            appendLog(response);
         }
-        return t;
+        return response;
+    }
+
+    private void appendLog(Response response) {
+        if (StringUtil.isEmpty(response)) {
+            return;
+        }
+        response.setLog(EsLoggerBuffer.getLogs());
+        EsLoggerBuffer.clear();
     }
 }

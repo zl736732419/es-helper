@@ -12,5 +12,8 @@
         149676201
       ]
     }
-  ]
+  ],
+  "options": {
+    "query.log.enable": true
+  }
 }

@@ -1,13 +1,15 @@
 package com.zheng.es.parser;
 
 import com.zheng.es.builder.FilterQueryBuilder;
-import com.zheng.es.utils.IndexConfigUtil;
-import com.zheng.es.model.Index;
-import com.zheng.es.model.Type;
 import com.zheng.es.model.EsPage;
 import com.zheng.es.model.EsQuery;
+import com.zheng.es.model.Index;
 import com.zheng.es.model.QueryParams;
+import com.zheng.es.model.Type;
+import com.zheng.es.utils.IndexConfigUtil;
 import com.zheng.es.utils.StringUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class BaseEsQueryParser implements IEsQueryParser {
+    private Logger logger = LogManager.getLogger(this.getClass());
     private IndexConfigUtil init = IndexConfigUtil.getInstance();
     
     @Override
@@ -59,9 +62,9 @@ public class BaseEsQueryParser implements IEsQueryParser {
         QueryBuilder filterQueryBuilder = new FilterQueryBuilder(params.getFilters(), type).build();
         builder.queryBuilder(filterQueryBuilder);
         // queryScoreEnable
-        builder.logEnable(params.isLogEnable());
-        // logEnable
         builder.queryScoreEnable(params.isQueryScoreEnable());
+        // logEnable
+        builder.logEnable(params.isLogEnable());
         // key
         builder.key(params.getKey());
         EsQuery esQuery = builder.build();

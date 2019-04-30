@@ -1,5 +1,6 @@
 package com.zheng.es.core;
 
+import com.zheng.es.model.Response;
 import com.zheng.es.pool.SearchPool;
 import com.zheng.es.task.AbstractSearchTask;
 import com.zheng.es.utils.StringUtil;
@@ -33,12 +34,12 @@ import java.util.stream.Collectors;
  *
  * </pre>
  */
-public class CacheSearchTaskExecutor<T> {
+public class CacheSearchTaskExecutor {
     private Logger logger = LogManager.getLogger(this.getClass());
     /**
      * 任务列表
      */
-    private ConcurrentHashMap<String, CompletableFuture<T>> cacheTask = new ConcurrentHashMap<>();
+    private ConcurrentHashMap<String, CompletableFuture<Response>> cacheTask = new ConcurrentHashMap<>();
     /**
      * 线程池
      */
@@ -57,11 +58,11 @@ public class CacheSearchTaskExecutor<T> {
      * 添加任务
      * @param task
      */
-    public void join(AbstractSearchTask<T> task) {
+    public void join(AbstractSearchTask task) {
         if (StringUtil.isEmpty(task)) {
             return;
         }
-        CompletableFuture<T> future = CompletableFuture.supplyAsync(() -> doExecute(task), executor);
+        CompletableFuture<Response> future = CompletableFuture.supplyAsync(() -> doExecute(task), executor);
         cacheTask.putIfAbsent(task.getTaskName(), future);
     }
 
@@ -70,7 +71,7 @@ public class CacheSearchTaskExecutor<T> {
      * @param task
      * @return
      */
-    private T doExecute(AbstractSearchTask<T> task) {
+    private Response doExecute(AbstractSearchTask task) {
         try {
             return task.call();
         } catch (Exception e) {
@@ -83,13 +84,13 @@ public class CacheSearchTaskExecutor<T> {
      * 执行任务获取结果
      * @return
      */
-    public List<T> get() {
-        Collection<CompletableFuture<T>> futures = cacheTask.values();
-        CompletableFuture<List<T>> resultFuture = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]))
+    public List<Response> actionGet() {
+        Collection<CompletableFuture<Response>> futures = cacheTask.values();
+        CompletableFuture<List<Response>> resultFuture = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]))
                 .thenApply(v -> futures.stream()
                         .map(CompletableFuture::join)
                         .collect(Collectors.toList()));
-        List<T> responses = null;
+        List<Response> responses = null;
         try {
             responses = resultFuture.get();
         } catch (Exception e) {

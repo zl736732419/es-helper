@@ -2,6 +2,7 @@ package com.zheng.es.model;
 
 import com.zheng.es.enums.EnumQueryOption;
 import com.zheng.es.field.FilterField;
+import com.zheng.es.utils.BooleanUtil;
 import com.zheng.es.utils.StringUtil;
 
 import java.util.ArrayList;
@@ -167,13 +168,27 @@ public class Params {
         filters.add(filterField);
     }
     
+    public void addOption(String key, Object value) {
+        if (StringUtil.isEmpty(key) || StringUtil.isEmpty(value)) {
+            return;
+        }
+        options.put(key, value);
+    }
+    
+    public Object getOption(String key) {
+        if (StringUtil.isEmpty(key) || StringUtil.isEmpty(options)) {
+            return null;
+        }
+        return options.get(key);
+    }
+    
     public boolean isQueryScoreEnable() {
-        Boolean queryScoreEnable = (Boolean) options.get(EnumQueryOption.QUERY_SCORE_ENABLE.getKey());
+        Boolean queryScoreEnable = BooleanUtil.formatBoolean(options.get(EnumQueryOption.QUERY_SCORE_ENABLE.getKey()));
         return (null != queryScoreEnable) && queryScoreEnable;
     }
     
     public boolean isQueryLogEnable() {
-        Boolean queryLogEnable = (Boolean) options.get(EnumQueryOption.QUERY_LOG_ENABLE.getKey());
+        Boolean queryLogEnable = BooleanUtil.formatBoolean(options.get(EnumQueryOption.QUERY_LOG_ENABLE.getKey()));
         return (null != queryLogEnable) && queryLogEnable;
     }
     

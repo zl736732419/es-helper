@@ -21,7 +21,7 @@ import com.zheng.es.utils.SpringContextUtil;
  *
  * </pre>
  */
-public class SkuSearchTask extends AbstractSearchTask<Response> {
+public class SkuSearchTask extends AbstractSearchTask {
     private ISearcher<Response> skuSearcher = SpringContextUtil.getBean("skuSearcher", ISearcher.class);
     
     public SkuSearchTask(Params params, String taskName) {

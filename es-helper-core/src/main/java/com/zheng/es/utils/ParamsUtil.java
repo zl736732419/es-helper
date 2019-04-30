@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import com.zheng.es.enums.EnumExceptionCode;
 import com.zheng.es.enums.EnumFieldType;
 import com.zheng.es.field.CommonField;
@@ -56,6 +57,8 @@ public class ParamsUtil {
             JsonObject json = gson.fromJson(jsonStr, JsonObject.class);
             // 普通参数
             parseCommonFields(json, params);
+            // option配置参数
+            parseOptionFields(json, params);
             // 查询条件
             parseFilterFields(json, params);
         } catch (Exception e) {
@@ -63,6 +66,30 @@ public class ParamsUtil {
             return null;
         }
         return params;
+    }
+
+    private static void parseOptionFields(JsonObject json, Params params) {
+        if (!json.has("options")) {
+            return;
+        }
+        JsonObject options = (JsonObject) json.get("options");
+        for (String key : options.keySet()) {
+            params.addOption(key, getObjectValue(options.getAsJsonPrimitive(key)));
+        }
+    }
+
+    private static Object getObjectValue(JsonPrimitive primitive) {
+        if (primitive.isBoolean()) {
+            return primitive.getAsBoolean();
+        } else if (primitive.isNumber()) {
+            if (primitive.getAsString().contains(".")) {
+                return primitive.getAsDouble();
+            } else {
+                return primitive.getAsInt();
+            }
+        } else {
+            return primitive.getAsString();
+        }
     }
 
     private static String readJsonFromResource(String fileName) {
@@ -176,6 +203,5 @@ public class ParamsUtil {
             String scrollId = json.get("scrollId").getAsString();
             params.setScrollId(scrollId);
         }
-        
     }
 }

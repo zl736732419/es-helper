@@ -105,7 +105,7 @@ public class BaseSearchAcceptor implements ISearchAcceptor<Response> {
                 executor = cacheSearchTaskExecutor;
             }
         }
-        return executor.get();
+        return executor.actionGet();
     }
 
     private void validate(Params params) {
